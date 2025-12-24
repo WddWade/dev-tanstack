@@ -1,4 +1,8 @@
+"use server"
 
+// import { cookies } from "next/headers"
+// import { redirect } from "next/navigation";
+import { CONNECTION_MAX_TIME } from "@/beones.config"
 
 type Restype = "response" | undefined
 
@@ -39,7 +43,7 @@ export async function serverActions<
 	const serverHeaders = await getServerHeaders(headers)
 	const controller = new AbortController()
 
-	const timer = setTimeout(() => controller.abort(), Number(3600))
+	const timer = setTimeout(() => controller.abort(), Number(CONNECTION_MAX_TIME))
 	const api = (process.env[`${end}_API_URL`] as any) + String(apiRoute)
 	console.log("serverActions", api);
 
@@ -57,7 +61,7 @@ export async function serverActions<
 
 	} catch (error: any) {
 		const errorMessage = error.name === "AbortError"
-			? `server actions error: Fetch ${apiRoute} Timeout: ${3600}ms`
+			? `server actions error: Fetch ${apiRoute} Timeout: ${CONNECTION_MAX_TIME}ms`
 			: `server actions error: Fetch "${api}" :  ${error}`
 
 		console.error(errorMessage)
@@ -71,24 +75,24 @@ export async function serverActions<
 }
 
 export async function getServerCookies(name?: string) {
-	const cookieStore = await cookies()
+	// const cookieStore = await cookies()
 
-	if (name) {
-		const cookieValue = cookieStore.get(name)?.value
-		return cookieValue
-			? JSON.parse(cookieValue)
-			: undefined
-	} else {
-		return cookieStore
-			.getAll()
-			.map((cookie) => cookie.name + "=" + cookie.value)
-			.join("; ")
-	}
+	// if (name) {
+	// 	const cookieValue = cookieStore.get(name)?.value
+	// 	return cookieValue
+	// 		? JSON.parse(cookieValue)
+	// 		: undefined
+	// } else {
+	// 	return cookieStore
+	// 		.getAll()
+	// 		.map((cookie) => cookie.name + "=" + cookie.value)
+	// 		.join("; ")
+	// }
 
 }
 
 export async function getServerHeaders(headers?: Record<string, string>) {
-	const cookies = await getServerCookies()
+	const cookies = await getServerCookies() ?? ""
 	const serverHeaders = new Headers()
 
 	serverHeaders.set("cookie", cookies || "")

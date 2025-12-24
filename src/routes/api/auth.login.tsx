@@ -7,9 +7,9 @@ export const Route = createFileRoute('/api/auth/login')({
         handlers: {
             POST: async ({ request }) => {
                 const cookie = getCookies()
-                const body = await request.json()
 
-                console.log("cookies", cookie);
+                console.log("server cookie", cookie["wdd_laravel_1103_session"]);
+                const body = await request.json()
 
                 const url = "http://api.beones.tw/api/login"
                 const options = {

@@ -1,8 +1,6 @@
-"use client"
-
+import { useState, useTransition } from "react"
 import { cn } from "@xwadex/fesd-next/shadcns"
-import { useState } from "react"
-
+import { useNavigate } from "@tanstack/react-router"
 
 interface FormValues {
 	account?: string
@@ -27,30 +25,31 @@ const formsValues: FormValues = {
 
 const LoginForms: React.FC<PropsType> = () => {
 
-
+	const [isPending, startTransition] = useTransition()
 	const [submitDatas, setSubmitDatas] = useState(formsValues)
+
+	const navigate = useNavigate()
 
 	const onChangeEvents = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const changeDatas = { [e.target.name]: e.target.value }
 		setSubmitDatas(prev => ({ ...prev, ...changeDatas }))
 	}
 
-	const onClickEvents = async () => {
+	const onClickEvents = () => {
 		// setSubmitDatas({})
 
-		const url = "http://localhost:3000/api/auth/login"
-		const options = {
-			method: "POST",
-			body: JSON.stringify(submitDatas)
-		}
+		startTransition(async () => {
+			const res = await fetch("http://localhost:3000/api/auth/login", {
+				method: "POST",
+				body: JSON.stringify(submitDatas)
+			})
 
-		const res = await fetch(url, options)
-		const { status, data } = await res.json()
+			const { status, data } = await res.json()
+			console.log("status", status, data);
+			// globalToaster("login")
 
-		console.log("status", status, data);
-		// globalToaster("login")
-
-		// if (status) redirect("/", RedirectType.replace)
+			// if (status) navigate({ to: '/', replace: true })
+		})
 	}
 
 	return (
@@ -111,8 +110,7 @@ const LoginForms: React.FC<PropsType> = () => {
 					)}
 					onClick={onClickEvents}
 				>
-					submit
-					{/* {pending ? "Fetching..." : "Submit"} */}
+					{isPending ? "Fetching..." : "Submit"}
 				</button>
 
 				<span className="text-xs">pending: ...</span>
