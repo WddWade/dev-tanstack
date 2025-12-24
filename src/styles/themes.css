@@ -1,0 +1,51 @@
+@theme default {
+	--color-divider-line: oklch(92.2% 0 0);
+
+	--spacing-headers: 40px;
+	--spacing-sidebar: 200px;
+	--spacing-main: calc(100vh - var(--spacing-headers));
+	--spacing-space: 20px;
+	--spacing-view-header: 33px;
+	--spacing-view-footer: 33px;
+	--spacing-divider-line: 1px;
+
+	--text-mini-13: 0.8125rem;
+	--text-mini-13-line-height: 1.25rem;
+	--text-mini-11: 0.6875rem;
+	--text-mini-13-line-height: 1.1rem;
+	--text-mini-10: 0.625rem;
+	--text-mini-13-line-height: 1rem;
+
+	--ease-cool: cubic-bezier(0.83, 0, 0.17, 1);
+
+	--animate-spin-fast: spin-fast 0.5s ease-in-out infinite;
+
+	/* --animate-panel-show: accordion-fade-in 2s ease-out;
+	--animate-panel-close: accordion-fade-out 2s ease-out; */
+}
+
+@keyframes spin-fast {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* @keyframes accordion-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 100;
+	}
+}
+@keyframes accordion-fade-out {
+	from {
+		opacity: 100;
+	}
+	to {
+		opacity: 0;
+	}
+} */
