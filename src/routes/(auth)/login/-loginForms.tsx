@@ -1,6 +1,40 @@
 import { useState, useTransition } from "react"
-import { cn } from "@xwadex/fesd-next/shadcns"
 import { useNavigate } from "@tanstack/react-router"
+import { createMiddleware, createServerFn } from '@tanstack/react-start'
+import { setResponseHeader } from "@tanstack/react-start/server"
+import { cn } from "@xwadex/fesd-next/shadcns"
+
+const middlewareRequest = createMiddleware({ type: 'request' }).server(async ({ request, next }) => {
+	return next({ context: { request } })
+})
+
+export const loginActions = createServerFn({ method: 'POST' })
+	.middleware([middlewareRequest])
+	.inputValidator((data: Record<string, any>) => data)
+	.handler(async ({ data, context }) => {
+		const requestHeaders = context.request.headers
+		const requesCookies = requestHeaders.get("cookie") ?? ""
+
+		const url = "http://api.beones.tw/api/login"
+		const response = await fetch(url, {
+			method: "POST",
+			body: JSON.stringify(data),
+			headers: {
+				"content-type": "application/json",
+				"cookie": requesCookies,
+			},
+		})
+
+		const responseHeaders = response.headers
+		const responseCookies = typeof responseHeaders.getSetCookie === 'function'
+			? responseHeaders.getSetCookie()
+			: (responseHeaders.get('set-cookie') ? [responseHeaders.get('set-cookie') ?? ""] : [])
+		// console.log("responseCookies", responseCookies);
+		for (const cookie of responseCookies) { setResponseHeader('Set-Cookie', cookie) }
+
+		const datas = await response.json()
+		return datas
+	})
 
 interface FormValues {
 	account?: string
@@ -39,17 +73,26 @@ const LoginForms: React.FC<PropsType> = () => {
 		// setSubmitDatas({})
 
 		startTransition(async () => {
-			const res = await fetch("http://localhost:3000/api/auth/login", {
-				method: "POST",
-				body: JSON.stringify(submitDatas)
-			})
+			const { status, data } = await loginActions({ data: submitDatas })
+			// const { status, data } = await response.json()
 
-			const { status, data } = await res.json()
-			console.log("status", status, data);
+			console.log("status", data);
 			// globalToaster("login")
 
-			// if (status) navigate({ to: '/', replace: true })
+			if (status) navigate({ to: '/', replace: true })
 		})
+		// startTransition(async () => {
+		// 	const res = await fetch("http://localhost:3000/api/auth/login", {
+		// 		method: "POST",
+		// 		body: JSON.stringify(submitDatas)
+		// 	})
+
+		// 	const { status, data } = await res.json()
+		// 	console.log("status", status, data);
+		// 	// globalToaster("login")
+
+		// 	// if (status) navigate({ to: '/', replace: true })
+		// })
 	}
 
 	return (
