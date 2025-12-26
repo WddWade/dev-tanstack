@@ -1,31 +1,28 @@
-"use server";
+import { deleteCookie, setCookie } from '@tanstack/react-start/server'
+import { serverActions } from "./server-actions";
+import { C_TOKEN, R_TOKEN, C_TOKEN_OPTIONS } from "@/beones.config"
 
-import { getCookies, setCookie } from '@tanstack/react-start/server'
-
-export function getAuthTokenCookies() {
-	const cookies = getCookies()
-	return cookies
-}
 
 export function setAuthTokenCookies() {
+	setCookie(C_TOKEN, "true", { ...C_TOKEN_OPTIONS });
 	// https再開secure: true
-	setCookie("C_TOKEN", "true", { path: '/', maxAge: 60 * 60 * 60, httpOnly: true });
+	// setCookie(C_TOKEN, "true", { path: '/', maxAge: 60 * 60 * 60, httpOnly: true });
 }
 
 export function deleteAuthTokenCookies() {
-	setCookie("C_TOKEN", "true", { path: '/', maxAge: 0, httpOnly: true });
+	deleteCookie(C_TOKEN);
+	deleteCookie(R_TOKEN);
 }
 
 export async function verifyAuthorizationToken() {
-	// const { status } = await serverActions({
-	// 	apiRoute: "/verify",
-	// 	options: { method: "POST" },
-	// });
 
-	// if (status) await setAuthTokenCookies();
-	// else await deleteAuthTokenCookies();
+	const data = { apiRoute: "/verify" }
+	const { status } = await serverActions({ data })
 
-	// console.log("middleware : verifyAuthTokenCookies " + status);
-	// return status;
+	if (status) setAuthTokenCookies();
+	else deleteAuthTokenCookies();
+
+	console.log("middleware : verifyAuthTokenCookies " + status);
+	return status;
 }
 

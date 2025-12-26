@@ -1,0 +1,6 @@
+export { default as GlobalsLoaders } from "./globals-loaders"
+export { default as LoadersSpinners } from "./loaders-spinners"
+export { default as Loaders } from "./loaders"
+export { default as OldLoaders } from "./old_loaders"
+export * from "./loaders-spinners"
+export * from "./old_loaders"

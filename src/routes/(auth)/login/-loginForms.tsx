@@ -1,40 +1,8 @@
 import { useState, useTransition } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { createMiddleware, createServerFn } from '@tanstack/react-start'
-import { setResponseHeader } from "@tanstack/react-start/server"
-import { cn } from "@xwadex/fesd-next/shadcns"
+import { serverActions } from "@/servers/server-actions"
+import { cn } from "@/utils"
 
-const middlewareRequest = createMiddleware({ type: 'request' }).server(async ({ request, next }) => {
-	return next({ context: { request } })
-})
-
-export const loginActions = createServerFn({ method: 'POST' })
-	.middleware([middlewareRequest])
-	.inputValidator((data: Record<string, any>) => data)
-	.handler(async ({ data, context }) => {
-		const requestHeaders = context.request.headers
-		const requesCookies = requestHeaders.get("cookie") ?? ""
-
-		const url = "http://api.beones.tw/api/login"
-		const response = await fetch(url, {
-			method: "POST",
-			body: JSON.stringify(data),
-			headers: {
-				"content-type": "application/json",
-				"cookie": requesCookies,
-			},
-		})
-
-		const responseHeaders = response.headers
-		const responseCookies = typeof responseHeaders.getSetCookie === 'function'
-			? responseHeaders.getSetCookie()
-			: (responseHeaders.get('set-cookie') ? [responseHeaders.get('set-cookie') ?? ""] : [])
-		// console.log("responseCookies", responseCookies);
-		for (const cookie of responseCookies) { setResponseHeader('Set-Cookie', cookie) }
-
-		const datas = await response.json()
-		return datas
-	})
 
 interface FormValues {
 	account?: string
@@ -73,10 +41,15 @@ const LoginForms: React.FC<PropsType> = () => {
 		// setSubmitDatas({})
 
 		startTransition(async () => {
-			const { status, data } = await loginActions({ data: submitDatas })
+
+			const data = {
+				apiRoute: ["login"],
+				options: { body: JSON.stringify(submitDatas) }
+			}
+			const { status, data: datasets } = await serverActions({ data })
 			// const { status, data } = await response.json()
 
-			console.log("status", data);
+			console.log("status", datasets);
 			// globalToaster("login")
 
 			if (status) navigate({ to: '/', replace: true })

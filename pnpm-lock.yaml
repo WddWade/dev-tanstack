@@ -104,6 +104,12 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.0.6
         version: 4.1.17(vite@7.2.7(@types/node@22.19.2)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0))
+      '@tanstack/query-db-collection':
+        specifier: ^1.0.12
+        version: 1.0.12(@tanstack/query-core@5.90.12)(typescript@5.9.3)
+      '@tanstack/react-db':
+        specifier: ^0.1.60
+        version: 0.1.60(react@19.3.0-canary-6160773f-20251023)(typescript@5.9.3)
       '@tanstack/react-devtools':
         specifier: ^0.7.0
         version: 0.7.11(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(csstype@3.2.3)(react-dom@19.3.0-canary-6160773f-20251023(react@19.3.0-canary-6160773f-20251023))(react@19.3.0-canary-6160773f-20251023)(solid-js@1.9.10)
@@ -2181,6 +2187,9 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@standard-schema/spec@1.1.0':
+    resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
@@ -2291,6 +2300,16 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
+  '@tanstack/db-ivm@0.1.14':
+    resolution: {integrity: sha512-GluhFsd/Z1E/MZTf60l9dZpKNpmdxtV4izPRnj1RK6TYrhC9LMndN+ywk1VDFBrjtBq/CTShz4CilECLwVlTGg==}
+    peerDependencies:
+      typescript: '>=4.7'
+
+  '@tanstack/db@0.5.16':
+    resolution: {integrity: sha512-V4oCsGlighwgKGWldw1umaXaVYiDR0sK/1fCWictrx2lqxqmBMUEfmNtWnt0CFJXEbyRA/LF8TyFn1ooXtyZ3w==}
+    peerDependencies:
+      typescript: '>=4.7'
+
   '@tanstack/devtools-client@0.0.3':
     resolution: {integrity: sha512-kl0r6N5iIL3t9gGDRAv55VRM3UIyMKVH83esRGq7xBjYsRLe/BeCIN2HqrlJkObUXQMKhy7i8ejuGOn+bDqDBw==}
     engines: {node: '>=18'}
@@ -2345,11 +2364,26 @@ packages:
     resolution: {integrity: sha512-u+/dChlWlT3kYa/RmFP+E7xY5EnzvKEKcvKk+XrgWMpBWExQIh3RQX/eUqhqwCXJPNc4jfm1Coj8umnm/hDgyA==}
     engines: {node: '>=12'}
 
+  '@tanstack/pacer-lite@0.1.1':
+    resolution: {integrity: sha512-y/xtNPNt/YeyoVxE/JCx+T7yjEzpezmbb+toK8DDD1P4m7Kzs5YR956+7OKexG3f8aXgC3rLZl7b1V+yNUSy5w==}
+    engines: {node: '>=18'}
+
   '@tanstack/query-core@5.90.12':
     resolution: {integrity: sha512-T1/8t5DhV/SisWjDnaiU2drl6ySvsHj1bHBCWNXd+/T+Hh1cf6JodyEYMd5sgwm+b/mETT4EV3H+zCVczCU5hg==}
 
+  '@tanstack/query-db-collection@1.0.12':
+    resolution: {integrity: sha512-kwE9lfGhbnRbRHut1k4yrshoTSDNqP/uY7Brr0l1HbOJZuW7V8Q1zQ1GN4TMAtsLohKaSsL/XDxZULCi6MGngg==}
+    peerDependencies:
+      '@tanstack/query-core': ^5.0.0
+      typescript: '>=4.7'
+
   '@tanstack/query-devtools@5.91.1':
     resolution: {integrity: sha512-l8bxjk6BMsCaVQH6NzQEE/bEgFy1hAs5qbgXl0xhzezlaQbPk6Mgz9BqEg2vTLPOHD8N4k+w/gdgCbEzecGyNg==}
+
+  '@tanstack/react-db@0.1.60':
+    resolution: {integrity: sha512-Pz3pwH4vgRxlS/L3+BszINjNlIUXahJ6EqSEsYBMBT19G36GzTzyd5Qq98JaOXuu8V0dkiFWEoyEoTv3BiHcrg==}
+    peerDependencies:
+      react: '>=16.8.0'
 
   '@tanstack/react-devtools@0.7.11':
     resolution: {integrity: sha512-a2Lmz8x+JoDrsU6f7uKRcyyY+k8mA/n5mb9h7XJ3Fz/y3+sPV9t7vAW1s5lyNkQyyDt6V1Oim99faLthoJSxMw==}
@@ -3517,6 +3551,10 @@ packages:
   format@0.2.2:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
     engines: {node: '>=0.4.x'}
+
+  fractional-indexing@3.2.0:
+    resolution: {integrity: sha512-PcOxmqwYCW7O2ovKRU8OoQQj2yqTfEB/yeTYk4gPid6dN5ODRfU1hXd9tTVZzax/0NkO7AxpHykvZnT1aYp/BQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
 
   framer-motion@12.23.26:
     resolution: {integrity: sha512-cPcIhgR42xBn1Uj+PzOyheMtZ73H927+uWPDVhUMqxy8UHt6Okavb6xIz9J/phFUHUj0OncR6UvMfJTXoc/LKA==}
@@ -4729,6 +4767,9 @@ packages:
 
   sortablejs@1.15.6:
     resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
+
+  sorted-btree@1.8.1:
+    resolution: {integrity: sha512-395+XIP+wqNn3USkFSrNz7G3Ss/MXlZEqesxvzCRFwL14h6e8LukDHdLBePn5pwbm5OQ9vGu8mDyz2lLDIqamQ==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -6998,6 +7039,8 @@ snapshots:
     dependencies:
       solid-js: 1.9.10
 
+  '@standard-schema/spec@1.1.0': {}
+
   '@standard-schema/utils@0.3.0': {}
 
   '@stylistic/eslint-plugin@5.6.1(eslint@9.39.1(jiti@2.6.1))':
@@ -7088,6 +7131,19 @@ snapshots:
       '@tailwindcss/oxide': 4.1.17
       tailwindcss: 4.1.17
       vite: 7.2.7(@types/node@22.19.2)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)
+
+  '@tanstack/db-ivm@0.1.14(typescript@5.9.3)':
+    dependencies:
+      fractional-indexing: 3.2.0
+      sorted-btree: 1.8.1
+      typescript: 5.9.3
+
+  '@tanstack/db@0.5.16(typescript@5.9.3)':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      '@tanstack/db-ivm': 0.1.14(typescript@5.9.3)
+      '@tanstack/pacer-lite': 0.1.1
+      typescript: 5.9.3
 
   '@tanstack/devtools-client@0.0.3':
     dependencies:
@@ -7182,9 +7238,26 @@ snapshots:
 
   '@tanstack/history@1.140.0': {}
 
+  '@tanstack/pacer-lite@0.1.1': {}
+
   '@tanstack/query-core@5.90.12': {}
 
+  '@tanstack/query-db-collection@1.0.12(@tanstack/query-core@5.90.12)(typescript@5.9.3)':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      '@tanstack/db': 0.5.16(typescript@5.9.3)
+      '@tanstack/query-core': 5.90.12
+      typescript: 5.9.3
+
   '@tanstack/query-devtools@5.91.1': {}
+
+  '@tanstack/react-db@0.1.60(react@19.3.0-canary-6160773f-20251023)(typescript@5.9.3)':
+    dependencies:
+      '@tanstack/db': 0.5.16(typescript@5.9.3)
+      react: 19.3.0-canary-6160773f-20251023
+      use-sync-external-store: 1.6.0(react@19.3.0-canary-6160773f-20251023)
+    transitivePeerDependencies:
+      - typescript
 
   '@tanstack/react-devtools@0.7.11(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(csstype@3.2.3)(react-dom@19.3.0-canary-6160773f-20251023(react@19.3.0-canary-6160773f-20251023))(react@19.3.0-canary-6160773f-20251023)(solid-js@1.9.10)':
     dependencies:
@@ -8503,6 +8576,8 @@ snapshots:
   flatted@3.3.3: {}
 
   format@0.2.2: {}
+
+  fractional-indexing@3.2.0: {}
 
   framer-motion@12.23.26(react-dom@19.3.0-canary-6160773f-20251023(react@19.3.0-canary-6160773f-20251023))(react@19.3.0-canary-6160773f-20251023):
     dependencies:
@@ -10187,6 +10262,8 @@ snapshots:
       react-dom: 19.3.0-canary-6160773f-20251023(react@19.3.0-canary-6160773f-20251023)
 
   sortablejs@1.15.6: {}
+
+  sorted-btree@1.8.1: {}
 
   source-map-js@1.2.1: {}
 

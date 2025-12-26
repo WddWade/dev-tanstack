@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import LoginForms from './-loginForms'
-import { cn } from '@xwadex/fesd-next/shadcns'
+import { cn } from "@/utils"
 
 export const Route = createFileRoute('/(auth)/login/')({
     component: LoginPage,

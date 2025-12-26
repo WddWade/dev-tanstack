@@ -1,111 +1,89 @@
-"use server"
-
-// import { cookies } from "next/headers"
-// import { redirect } from "next/navigation";
+import { createServerFn } from "@tanstack/react-start"
+import { setResponseHeader, getRequestHeaders } from "@tanstack/react-start/server"
+import { getRouteAddress } from "./server-utils"
 import { CONNECTION_MAX_TIME } from "@/beones.config"
 
-type Restype = "response" | undefined
-
-export type BaseResponse<
-	T extends Record<string, unknown>
-> = T & {
-	status: boolean
-	code?: string | number
-	msg?: string
-	errors?: Error
-}
-
-export type ActionsResponse<
-	T extends Record<string, unknown> = Record<string, unknown>,
-	R extends Restype = undefined
-> = R extends "response" ? Response : BaseResponse<T>
-
-export interface ActionsOptions<R extends Restype> {
+export interface ActionsOptions {
 	end?: "REMOTE" | "LOCAL"
-	apiRoute: string | URL
+	apiRoute: string[]
 	options?: any
-	restype?: R
 }
 
-export async function serverActions<
-	T extends Record<string, unknown>,
-	R extends Restype = undefined
->({
-	end = "REMOTE",
-	apiRoute,
-	options,
-	restype,
-}: ActionsOptions<R>
-): Promise<ActionsResponse<T, R>> {
-
-	const { headers, ...others } = options || {}
-
-	const serverHeaders = await getServerHeaders(headers)
-	const controller = new AbortController()
-
-	const timer = setTimeout(() => controller.abort(), Number(CONNECTION_MAX_TIME))
-	const api = (process.env[`${end}_API_URL`] as any) + String(apiRoute)
-	console.log("serverActions", api);
-
-	try {
-		const response = await fetch(api, {
-			method: "POST",
-			signal: controller.signal,
-			headers: serverHeaders,
-			...others,
-		})
-		if (!response.ok) throw new Error(`server actions error: ${response.status}`)
-		if (restype == "response") return response as ActionsResponse<T, R>
-
-		return await response.json() as ActionsResponse<T, R>
-
-	} catch (error: any) {
-		const errorMessage = error.name === "AbortError"
-			? `server actions error: Fetch ${apiRoute} Timeout: ${CONNECTION_MAX_TIME}ms`
-			: `server actions error: Fetch "${api}" :  ${error}`
-
-		console.error(errorMessage)
-		// if (error === 401) redirect("/login")
-
-		return { status: false, msg: errorMessage, errors: error } as ActionsResponse<T, R>
-
-	} finally {
-		clearTimeout(timer)
-	}
+export interface ActionReturns {
+	status?: boolean
+	data?: Record<string, any>
+	datasets?: Record<string, any>
+	configs?: Record<string, any>
+	msg?: string
+	errors?: string
 }
 
-export async function getServerCookies(name?: string) {
-	// const cookieStore = await cookies()
+const getServerHeaders = () => {
+	const requestHeaders = getRequestHeaders()
+	const requesCookies = requestHeaders.get("cookie") ?? ""
+	const headers = new Headers()
 
-	// if (name) {
-	// 	const cookieValue = cookieStore.get(name)?.value
-	// 	return cookieValue
-	// 		? JSON.parse(cookieValue)
-	// 		: undefined
-	// } else {
-	// 	return cookieStore
-	// 		.getAll()
-	// 		.map((cookie) => cookie.name + "=" + cookie.value)
-	// 		.join("; ")
-	// }
+	headers.set("Content-Type", "application/json")
+	headers.set("cookie", requesCookies || "")
 
+	return headers
 }
 
-export async function getServerHeaders(headers?: Record<string, string>) {
-	const cookies = await getServerCookies() ?? ""
-	const serverHeaders = new Headers()
+export const serverActions = createServerFn({ method: 'POST' })
+	.inputValidator((data: ActionsOptions) => data)
+	.handler(async ({ data }): Promise<ActionReturns> => {
 
-	serverHeaders.set("cookie", cookies || "")
-	serverHeaders.set("Content-Type", "application/json")
+		const { end = "REMOTE", apiRoute, options } = data
+		// console.log("serverActions", apiRoute);
 
-	if (headers) {
-		for (const [key, value] of Object.entries(headers)) {
-			if (key.toLowerCase() == "cookie") continue
-			serverHeaders.set(key.toLowerCase(), value)
+		const serverHeaders = getServerHeaders()
+		const controller = new AbortController()
+
+		const timer = setTimeout(() => controller.abort(), Number(CONNECTION_MAX_TIME))
+		const api = end === "REMOTE" ? process.env.REMOTE_API_URL : process.env.LOCAL_API_URL
+		const url = api + getRouteAddress(apiRoute)
+
+		// console.log("serverActions url", url);
+
+		try {
+			const res = await fetch(url, {
+				method: "POST",
+				signal: controller.signal,
+				headers: serverHeaders,
+				...options,
+			})
+
+			if (!res.ok) throw new Error(`server actions error: ${res.status}`)
+
+			const resHeaders = res.headers
+			const resCookies = typeof resHeaders.getSetCookie === 'function'
+				? resHeaders.getSetCookie()
+				: (resHeaders.get('set-cookie') ? [resHeaders.get('set-cookie') ?? ""] : [])
+			// console.log("resCookies", resCookies);
+
+			if (resCookies.length) {
+				for (const cookie of resCookies) { setResponseHeader('Set-Cookie', cookie) }
+			}
+
+			const datas = await res.json()
+			console.log("serverActions datas", datas);
+
+			return datas
+
+		} catch (error: any) {
+			const errorMessage = error.name === "AbortError"
+				? `server actions error: Fetch ${apiRoute} Timeout: ${CONNECTION_MAX_TIME}ms`
+				: `server actions error: Fetch "${api}" :  ${error}`
+
+			console.error(errorMessage)
+			// if (error === 401) redirect("/login")
+
+			return { status: false, msg: errorMessage, errors: error } as ActionReturns
+
+		} finally {
+			clearTimeout(timer)
 		}
-	}
-	return serverHeaders
-}
+	})
 
 
 

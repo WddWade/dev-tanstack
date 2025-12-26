@@ -4,6 +4,7 @@ import * as TanstackQuery from './integrations/tanstack-query/root-provider'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
+import { NotFoundPage } from './routes/-notfound-page'
 
 // Create a new router instance
 export const getRouter = () => {
@@ -11,6 +12,7 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
+    defaultNotFoundComponent: () => <NotFoundPage />,
     context: { ...rqContext },
     defaultPreload: 'intent',
     Wrap: (props: { children: React.ReactNode }) => {
