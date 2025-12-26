@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useEffectEvent, createContext, use } from "react"
 import { setGlobalsLoaders } from "@/stores"
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
@@ -7,23 +5,22 @@ import { serverFetcher } from "@/servers/server-fetcher"
 import { serverActions } from "@/servers/server-actions"
 // import { notFound } from "next/navigation"
 
-interface BootsQueryOptions {
-	active?: boolean
-}
+// interface BootsQueryOptions {
+// 	active?: boolean
+// }
 
-export function useBootsQuery(
-	options?: BootsQueryOptions
-) {
+export function useBootsQuery() {
 	const {
 		data: queryDatas,
 		isLoading
 	} = useQuery({
-		queryKey: ["boots", options],
-		queryFn: async () => {
-			const apiRoute = ["boots"]
-			const options = { body: JSON.stringify({ _actions: "read" }) }
-			return await serverActions({ data: { apiRoute, options } })
-		},
+		queryKey: ["boots"],
+		queryFn: async () => await serverActions({
+			data: {
+				apiRoute: ["boots"],
+				payloads: { _actions: "read" }
+			}
+		}),
 		placeholderData: keepPreviousData,
 		staleTime: Infinity,
 	})

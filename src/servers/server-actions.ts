@@ -5,7 +5,8 @@ import { CONNECTION_MAX_TIME } from "@/beones.config"
 
 export interface ActionsOptions {
 	end?: "REMOTE" | "LOCAL"
-	apiRoute: string[]
+	apiRoute: string | string[]
+	payloads?: any
 	options?: any
 }
 
@@ -33,23 +34,29 @@ export const serverActions = createServerFn({ method: 'POST' })
 	.inputValidator((data: ActionsOptions) => data)
 	.handler(async ({ data }): Promise<ActionReturns> => {
 
-		const { end = "REMOTE", apiRoute, options } = data
+		const {
+			end = "REMOTE",
+			apiRoute: api,
+			payloads: body,
+			options
+		} = data
 		// console.log("serverActions", apiRoute);
 
 		const serverHeaders = getServerHeaders()
 		const controller = new AbortController()
 
 		const timer = setTimeout(() => controller.abort(), Number(CONNECTION_MAX_TIME))
-		const api = end === "REMOTE" ? process.env.REMOTE_API_URL : process.env.LOCAL_API_URL
-		const url = api + getRouteAddress(apiRoute)
+		const route = end === "REMOTE" ? process.env.REMOTE_API_URL : process.env.LOCAL_API_URL
+		const apiRoute = route + (Array.isArray(api) ? getRouteAddress(api) : api)
 
 		// console.log("serverActions url", url);
 
 		try {
-			const res = await fetch(url, {
+			const res = await fetch(apiRoute, {
 				method: "POST",
 				signal: controller.signal,
 				headers: serverHeaders,
+				body: JSON.stringify(body),
 				...options,
 			})
 
@@ -61,12 +68,12 @@ export const serverActions = createServerFn({ method: 'POST' })
 				: (resHeaders.get('set-cookie') ? [resHeaders.get('set-cookie') ?? ""] : [])
 			// console.log("resCookies", resCookies);
 
-			if (resCookies.length) {
-				for (const cookie of resCookies) { setResponseHeader('Set-Cookie', cookie) }
+			if (resCookies.length) for (const cookie of resCookies) {
+				setResponseHeader('Set-Cookie', cookie)
 			}
 
 			const datas = await res.json()
-			console.log("serverActions datas", datas);
+			// console.log("serverActions datas", datas); 
 
 			return datas
 

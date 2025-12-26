@@ -42,11 +42,12 @@ const LoginForms: React.FC<PropsType> = () => {
 
 		startTransition(async () => {
 
-			const data = {
-				apiRoute: ["login"],
-				options: { body: JSON.stringify(submitDatas) }
-			}
-			const { status, data: datasets } = await serverActions({ data })
+			const { status, data: datasets } = await serverActions({
+				data: {
+					apiRoute: ["login"],
+					options: { body: JSON.stringify(submitDatas) }
+				}
+			})
 			// const { status, data } = await response.json()
 
 			console.log("status", datasets);

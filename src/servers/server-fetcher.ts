@@ -1,6 +1,4 @@
-"use server"
 
-import { createServerFn } from "@tanstack/react-start"
 import { serverActions, ActionReturns } from "./server-actions"
 import { getRouteAddress } from "./server-utils"
 import { ViewsDatas } from "@/components"
@@ -30,11 +28,11 @@ export async function serverFetcher({
 	payloads
 }: FetcherOptions
 ) {
-	console.log("serverFetcher");
 	const apiRoute = getRouteAddress(routes)
 	const options = { body: JSON.stringify(payloads) }
+
 	const data = await serverActions({ data: { apiRoute, options } })
-	console.log("serverFetcher", data);
+	// console.log("serverFetcher", data);
 	return data
 }
 

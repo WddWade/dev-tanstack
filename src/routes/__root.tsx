@@ -54,16 +54,16 @@ function RootDocument({
       </head>
       <body>
         {/* <Header /> */}
-        {children}
-        {/* <ThemeProvider
+        <ThemeProvider
           attribute="data-mode"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
           <QueryProviders>
+            {children}
           </QueryProviders>
-        </ThemeProvider> */}
+        </ThemeProvider>
 
         {/* <GlobalsToaster
           theme="light"

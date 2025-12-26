@@ -10,6 +10,7 @@ import {
 } from "./components"
 import { useBootsQuery } from "@/libs"
 import { cn } from "@/utils"
+import { ClientOnly } from "@tanstack/react-router"
 
 export interface HeadersViewsType {
 	datasets: Record<string, any>,
@@ -23,79 +24,6 @@ export interface HeadersViewsDatas {
 }
 
 interface HeadersViewsProps { }
-
-// const datasets = {
-// 	headersViews: {
-// 		"logos": {},
-// 		"navigations": [
-// 			{
-// 				"id": 0,
-// 				"name": "Dashboard",
-// 				"route": "/dashboard"
-// 			},
-// 			{
-// 				"id": 2,
-// 				"name": "Cms",
-// 				"route": "/cms"
-// 			},
-// 			{
-// 				"id": 3,
-// 				"name": "Files",
-// 				"route": "/files"
-// 			},
-// 			{
-// 				"id": 4,
-// 				"name": "Analytics",
-// 				"route": "/analytics"
-// 			},
-// 			{
-// 				"id": 5,
-// 				"name": "Account",
-// 				"route": "/account"
-// 			},
-// 			{
-// 				"id": 6,
-// 				"name": "Docs",
-// 				"route": "/docs"
-// 			},
-// 			{
-// 				"id": 7,
-// 				"name": "Test",
-// 				"route": "/test"
-// 			}
-// 		],
-// 		"personals": {
-// 			"account": "wade",
-// 			"name": "王偉任",
-// 			"picture": ""
-// 		},
-// 		"notifications": {
-// 			"datasetsApi": "/notifications/datasets"
-// 		}
-// 	}
-// }
-
-// const configs = {
-// 	headersViews: {
-// 		"name": "headers",
-// 		"templates": {
-// 			"name": "defaults",
-// 			"logos": {
-// 				"name": "defaults"
-// 			},
-// 			"navigations": {
-// 				"name": "defaults"
-// 			},
-// 			"personals": {
-// 				"name": "defaults"
-// 			},
-// 			"notifications": {
-// 				"name": "defaults"
-// 			}
-// 		},
-// 		"settings": {}
-// 	}
-// }
 
 const HeadersViews: React.FC<HeadersViewsProps> = () => {
 
@@ -120,8 +48,10 @@ const HeadersViews: React.FC<HeadersViewsProps> = () => {
 			data-components="headersViews"
 			className={cn("h-headers")}
 		>
+			{/* <ClientOnly> */}
 			<AnimatePresence>
 				{headersViewsDatas && <motion.div
+
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
@@ -186,8 +116,7 @@ const HeadersViews: React.FC<HeadersViewsProps> = () => {
 					</section>
 				</motion.div>}
 			</AnimatePresence>
-
-
+			{/* </ClientOnly> */}
 		</div>)
 }
 
