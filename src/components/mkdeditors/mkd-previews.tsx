@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect } from "react"
-import MDEditor from "@uiw/react-md-editor"
+// import MDEditor from "@uiw/react-md-editor"
 import { cn } from "@/utils"
-import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview'
+// import type { MarkdownPreviewProps } from '@uiw/react-markdown-preview'
 
 interface PropsTypes extends MarkdownPreviewProps {
 	value?: string
@@ -37,7 +37,7 @@ export const previewsOptions = {
 		display: "flex",
 		flexDirection: "column",
 	}
-} as MarkdownPreviewProps
+} as any
 
 const MkdPreviews: React.FC<PropsTypes> = (props) => {
 
@@ -47,10 +47,11 @@ const MkdPreviews: React.FC<PropsTypes> = (props) => {
 	}, [])
 
 	return (
-		<MDEditor.Markdown
-			{...props}
-			{...previewsOptions}
-		/>
+		// <MDEditor.Markdown
+		// 	{...props}
+		// 	{...previewsOptions}
+		// />
+		null
 	)
 }
 

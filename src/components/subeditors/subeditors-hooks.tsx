@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useFormContext } from "react-hook-form"
-import { isEqual } from "lodash"
+import pkg from 'lodash';
+const { isEqual } = pkg;
 import { transFormFields } from "../forms"
 import { useViews } from "../views"
 import type { FieldType } from "../forms"
