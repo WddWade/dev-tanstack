@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useFormContext } from "react-hook-form"
-import pkg from 'lodash';
-const { isEqual } = pkg;
+import _ from "lodash"
 import { transFormFields } from "../forms"
 import { useViews } from "../views"
 import type { FieldType } from "../forms"
@@ -231,7 +230,7 @@ export const checkChangeValue = (
 
 	// 以輸入的內容為基礎比對原始資料
 	return Object.keys(restValue).every((key: any) => {
-		return isEqual(restValue[key], restRawValueItem[key])
+		return _.isEqual(restValue[key], restRawValueItem[key])
 	})
 })
 

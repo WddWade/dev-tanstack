@@ -13,7 +13,6 @@ import { Route as pagesRouteRouteImport } from './routes/(pages)/route'
 import { Route as pagesIndexRouteImport } from './routes/(pages)/index'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
-import { Route as ApiAuthLoginRouteImport } from './routes/api/auth.login'
 
 const pagesRouteRoute = pagesRouteRouteImport.update({
   id: '/(pages)',
@@ -34,21 +33,14 @@ const authLoginIndexRoute = authLoginIndexRouteImport.update({
   path: '/',
   getParentRoute: () => authLoginRouteRoute,
 } as any)
-const ApiAuthLoginRoute = ApiAuthLoginRouteImport.update({
-  id: '/api/auth/login',
-  path: '/api/auth/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRouteWithChildren
   '/': typeof pagesIndexRoute
-  '/api/auth/login': typeof ApiAuthLoginRoute
   '/login/': typeof authLoginIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof pagesIndexRoute
-  '/api/auth/login': typeof ApiAuthLoginRoute
   '/login': typeof authLoginIndexRoute
 }
 export interface FileRoutesById {
@@ -56,27 +48,19 @@ export interface FileRoutesById {
   '/(pages)': typeof pagesRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRouteRouteWithChildren
   '/(pages)/': typeof pagesIndexRoute
-  '/api/auth/login': typeof ApiAuthLoginRoute
   '/(auth)/login/': typeof authLoginIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/' | '/api/auth/login' | '/login/'
+  fullPaths: '/login' | '/' | '/login/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/auth/login' | '/login'
-  id:
-    | '__root__'
-    | '/(pages)'
-    | '/(auth)/login'
-    | '/(pages)/'
-    | '/api/auth/login'
-    | '/(auth)/login/'
+  to: '/' | '/login'
+  id: '__root__' | '/(pages)' | '/(auth)/login' | '/(pages)/' | '/(auth)/login/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   pagesRouteRoute: typeof pagesRouteRouteWithChildren
   authLoginRouteRoute: typeof authLoginRouteRouteWithChildren
-  ApiAuthLoginRoute: typeof ApiAuthLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,13 +93,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginIndexRouteImport
       parentRoute: typeof authLoginRouteRoute
     }
-    '/api/auth/login': {
-      id: '/api/auth/login'
-      path: '/api/auth/login'
-      fullPath: '/api/auth/login'
-      preLoaderRoute: typeof ApiAuthLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -146,7 +123,6 @@ const authLoginRouteRouteWithChildren = authLoginRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   pagesRouteRoute: pagesRouteRouteWithChildren,
   authLoginRouteRoute: authLoginRouteRouteWithChildren,
-  ApiAuthLoginRoute: ApiAuthLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

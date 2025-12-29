@@ -2,7 +2,7 @@
 "use client"
 
 import { create } from "zustand"
-export { useShallow } from 'zustand/react/shallow'
+import { useShallow } from 'zustand/react/shallow'
 import type {
 	GlobalsAlersStates,
 	GlobalsAlertsOptions
@@ -29,4 +29,8 @@ export const setGlobalsAlertDialogs = (
 
 export const defaultGlobalsAlertsStores = () => {
 	useGlobalsAlertsStores.setState(() => globalsAlertsStores)
+}
+
+export {
+	useShallow
 }

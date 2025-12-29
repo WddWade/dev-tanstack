@@ -22,7 +22,7 @@ import type { RadiosProps } from "../radios"
 import type { CheckboxsProps } from "../checkboxs"
 import type { SubeditorsProps } from "../subeditors"
 import type { Control, ControllerRenderProps, FieldValues } from "react-hook-form"
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/shadcn/components/ui/input-group"
+// import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/shadcn/components/ui/input-group"
 
 export interface FieldsComponents {
 	inputs: InputsProps

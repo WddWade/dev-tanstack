@@ -1,4 +1,5 @@
 import {
+  ClientOnly,
   HeadContent,
   Scripts,
   createRootRouteWithContext,
@@ -65,11 +66,12 @@ function RootDocument({
           </QueryProviders>
         </ThemeProvider>
 
-        {/* <GlobalsToaster
+        <GlobalsToaster
           theme="light"
           position="top-right"
           richColors
-        /> */}
+        />
+
         {/* <GlobalsAlerts /> */}
         {/* <GlobalsOverlays /> */}
         <TanStackDevtools

@@ -1,7 +1,8 @@
 import { useState, useTransition } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { serverActions } from "@/servers/server-actions"
+import { loginAuth, serverActions, serverFetcher } from "@/servers/server-actions"
 import { cn } from "@/utils"
+import { globalToaster } from "@/components"
 
 
 interface FormValues {
@@ -20,15 +21,10 @@ const formsConfigs = {
 	actions: {}
 }
 
-const formsValues: FormValues = {
-	account: "",
-	password: ""
-}
-
 const LoginForms: React.FC<PropsType> = () => {
 
 	const [isPending, startTransition] = useTransition()
-	const [submitDatas, setSubmitDatas] = useState(formsValues)
+	const [submitDatas, setSubmitDatas] = useState<Record<string, any>>({})
 
 	const navigate = useNavigate()
 
@@ -38,35 +34,16 @@ const LoginForms: React.FC<PropsType> = () => {
 	}
 
 	const onClickEvents = () => {
-		// setSubmitDatas({})
-
 		startTransition(async () => {
+			const { status, data: datasets } = await loginAuth(submitDatas)
+			// console.log("status", datasets);
+			globalToaster("login")
 
-			const { status, data: datasets } = await serverActions({
-				data: {
-					apiRoute: ["login"],
-					options: { body: JSON.stringify(submitDatas) }
-				}
-			})
-			// const { status, data } = await response.json()
-
-			console.log("status", datasets);
-			// globalToaster("login")
-
-			if (status) navigate({ to: '/', replace: true })
+			if (status) {
+				navigate({ to: '/', replace: true })
+				setSubmitDatas({})
+			}
 		})
-		// startTransition(async () => {
-		// 	const res = await fetch("http://localhost:3000/api/auth/login", {
-		// 		method: "POST",
-		// 		body: JSON.stringify(submitDatas)
-		// 	})
-
-		// 	const { status, data } = await res.json()
-		// 	console.log("status", status, data);
-		// 	// globalToaster("login")
-
-		// 	// if (status) navigate({ to: '/', replace: true })
-		// })
 	}
 
 	return (
@@ -87,7 +64,7 @@ const LoginForms: React.FC<PropsType> = () => {
 					"[&_input]:w-64",
 					"[&_input]:pb-2.5",
 					"[&_input]:pl-px",
-					"[&_input]:border-b-1",
+					"[&_input]:border-b",
 					"[&_input]:duration-300",
 					"[&_input]:border-b-black/20",
 					"[&_input]:placeholder:text-gray-400",
