@@ -26,27 +26,33 @@ const requestMiddleware = createMiddleware().server(
             if (toPath("/login") || isServerFn) return next()
             else throw redirect({ to: '/login', replace: true })
         }
+
+        if (cookies.wdd_laravel_1103_session) {
+            if (toPath("/login")) throw redirect({ to: '/', replace: true })
+        }
+
         return next()
     })
 
-// const functionMiddleware = createMiddleware({ type: 'function' })
-//     .client(async (options) => {
-//         const { next, context, data } = options
-//         console.log('-----------functionMiddleware client', context)
-//         console.log('-----------functionMiddleware client', data)
-//         return next()
-//     })
-//     .server(async (options) => {
-//         const { next, context, data } = options
+const functionMiddleware = createMiddleware({ type: "function" })
+    .client(async ({ next }) => {
+        const result = await next()
+        // Woah! We have the time from the server!
+        console.log("functionMiddleware.client");
+        // console.log('Time from the server:', result.context.timeFromServer)
 
-//         console.log('-----------functionMiddleware server', context)
-//         console.log('-----------functionMiddleware server', data)
-//         return next()
-//     })
+        return result
+    })
+    .server(async ({ context, next }) => {
+        // console.log("authMiddleware", request.url);
+        console.log("functionMiddleware.server");
+        return next()
+        //...
+    })
 
 export const startInstance = createStart(() => {
     return {
-        // functionMiddleware: [functionMiddleware],
+        functionMiddleware: [functionMiddleware],
         requestMiddleware: [requestMiddleware],
     }
 })
