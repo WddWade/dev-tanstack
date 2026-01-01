@@ -3,8 +3,8 @@
 import { useCallback, useMemo } from "react"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useBootsQuery } from "@/libs"
-import { serverFetcher } from "@/servers/server-fetcher"
 import { genUnitsViewsOptions } from "./units-helps"
+import { serverActions } from "@/servers/server-actions"
 
 export interface UintsQueryOptions {
 	id?: string | number
@@ -58,8 +58,8 @@ export function useUintsQuery({
 		isLoading,
 	} = useQuery({
 		queryKey: queryKeyMemo,
-		queryFn: async () => await serverFetcher({
-			routes: viewsRemoteRoute,
+		queryFn: async () => await serverActions({
+			apiRoute: viewsRemoteRoute,
 			payloads: { _actions: "read", ...(id ? { id } : {}) },
 		}),
 		staleTime: staleTimeMemo,

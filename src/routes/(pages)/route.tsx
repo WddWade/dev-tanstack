@@ -6,7 +6,6 @@ import { ClientOnly, createFileRoute, Outlet } from '@tanstack/react-router'
 import { createMiddleware, createServerFn } from '@tanstack/react-start'
 import { getCookies } from '@tanstack/react-start/server'
 
-
 const getServerTime = createServerFn()
     .handler(async () => {
         // This runs only on the server
@@ -21,7 +20,7 @@ export const Route = createFileRoute('/(pages)')({
 
 function RouteLayout() {
     const data = Route.useLoaderData()
-    console.log("object", data);
+    // console.log("object", data);
     return (
         <BootsProviders value={{ resizeStores: "" }}>
             <header className={cn("w-screen", "h-headers")}>

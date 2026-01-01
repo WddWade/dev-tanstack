@@ -2,7 +2,6 @@ import { deleteCookie, setCookie } from '@tanstack/react-start/server'
 import { serverActions } from "./server-actions";
 import { C_TOKEN, R_TOKEN, C_TOKEN_OPTIONS } from "@/beones.config"
 
-
 export function setAuthTokenCookies() {
 	setCookie(C_TOKEN, "true", { ...C_TOKEN_OPTIONS });
 	// https再開secure: true
@@ -15,9 +14,7 @@ export function deleteAuthTokenCookies() {
 }
 
 export async function verifyAuthorizationToken() {
-
-	const data = { apiRoute: "/verify" }
-	const { status } = await serverActions({ data })
+	const { status } = await serverActions({ apiRoute: "/verify" })
 
 	if (status) setAuthTokenCookies();
 	else deleteAuthTokenCookies();

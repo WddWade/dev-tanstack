@@ -23,7 +23,8 @@ import {
 	type QueryObserverResult,
 	type RefetchOptions
 } from "@tanstack/react-query"
-import { FetcherDatas, serverFetcher } from "@/servers/server-fetcher"
+import { FetcherDatas } from "@/servers/server-fetcher"
+import { serverActions } from "@/servers/server-actions"
 
 export type SubeditorPayloadsDatas = EditorsViewsPayloads[] | []
 
@@ -164,8 +165,8 @@ const EditorsViews: React.FC<EditorsViewsProps> = memo((props) => {
 		const mutationPayloads = { ...payload, _actions }
 		console.log("*****mutation.payloads", mutationPayloads);
 
-		const viewsDatas = await serverFetcher({
-			routes: remoteRoute,
+		const viewsDatas = await serverActions({
+			apiRoute: remoteRoute,
 			payloads: mutationPayloads,
 		})
 		console.log("mutationActions.response", viewsDatas);

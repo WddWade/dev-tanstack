@@ -1,7 +1,6 @@
 import { useEffect, useEffectEvent, createContext, use } from "react"
 import { setGlobalsLoaders } from "@/stores"
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
-import { serverFetcher } from "@/servers/server-fetcher"
 import { serverActions } from "@/servers/server-actions"
 // import { notFound } from "next/navigation"
 
@@ -16,10 +15,8 @@ export function useBootsQuery() {
 	} = useQuery({
 		queryKey: ["boots"],
 		queryFn: async () => await serverActions({
-			data: {
-				apiRoute: ["boots"],
-				payloads: { _actions: "read" }
-			}
+			apiRoute: ["boots"],
+			payloads: { _actions: "read" }
 		}),
 		placeholderData: keepPreviousData,
 		staleTime: Infinity,

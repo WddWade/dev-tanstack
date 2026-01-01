@@ -1,21 +1,21 @@
 
-import { serverActions, ActionReturns } from "./server-actions"
-import { getRouteAddress } from "./server-utils"
-import { ViewsDatas } from "@/components"
+// import { serverActions } from "./server-actions"
+// import { getRouteAddress } from "./server-utils"
+// import { ViewsDatas } from "@/components"
 
-interface FetcherPayloads {
-	id?: number | string
-	_actions:
-	| "create"
-	| "read"
-	| "update"
-	| "delete"
-}
+// interface FetcherPayloads {
+// 	id?: number | string
+// 	_actions:
+// 	| "create"
+// 	| "read"
+// 	| "update"
+// 	| "delete"
+// }
 
-export interface FetcherOptions {
-	routes: string[]
-	payloads: FetcherPayloads
-}
+// export interface FetcherOptions {
+// 	routes: string[]
+// 	payloads: FetcherPayloads
+// }
 
 export interface FetcherDatas {
 	status: boolean
@@ -23,18 +23,17 @@ export interface FetcherDatas {
 	errors?: Error
 }
 
-export async function serverFetcher({
-	routes = [],
-	payloads
-}: FetcherOptions
-) {
-	const apiRoute = getRouteAddress(routes)
-	const options = { body: JSON.stringify(payloads) }
-
-	const data = await serverActions({ data: { apiRoute, options } })
-	// console.log("serverFetcher", data);
-	return data
-}
+// export async function serverFetcher({
+// 	routes = [],
+// 	payloads
+// }: FetcherOptions
+// ) {
+// 	const apiRoute = getRouteAddress(routes)
+// 	const options = { body: JSON.stringify(payloads) }
+// 	const data = await serverActions({ apiRoute, options })
+// 	// console.log("serverFetcher", data);
+// 	return data
+// }
 
 
 

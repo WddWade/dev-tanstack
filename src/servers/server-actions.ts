@@ -1,73 +1,77 @@
-import { createServerFn } from "@tanstack/react-start"
+import { createServerFn, createServerOnlyFn } from "@tanstack/react-start"
 import { setResponseHeader, getRequestHeaders } from "@tanstack/react-start/server"
-import { getRouteAddress } from "./server-utils"
 import { CONNECTION_MAX_TIME } from "@/beones.config"
 
-export interface ServerActionsData {
+export interface ServerActionsPayloads {
+	id?: number | string
+	_actions?: "create" | "read" | "update" | "delete"
+}
+
+export interface ServerActionsOptions {
 	end?: "REMOTE" | "LOCAL"
-	responseCookies?: boolean
+	isRequestCookies?: boolean
+	isResponseCookies?: boolean
+	responseType?: "json" | "response" | "text" | "blob"
 	apiRoute: string | string[]
-	payloads?: any
+	payloads?: ServerActionsPayloads
 	options?: any
 }
 
-export interface ServerActionReturns {
+export interface ServerActionsReturns {
 	status?: boolean
 	data?: Record<string, any>
 	datasets?: Record<string, any>
 	configs?: Record<string, any>
+	cache?: any
 	msg?: string
+	code?: string | number
 	errors?: string
 }
 
+export const genApiAddress = createServerOnlyFn((routes: string[]) => ("/" + routes.join("/")))
 
+export const getApiRoute = createServerOnlyFn((end, api) => {
+	const route = end === "REMOTE" ? process.env.REMOTE_API_URL : process.env.LOCAL_API_URL
+	return route + (Array.isArray(api) ? genApiAddress(api) : api)
+})
 
-export const loginAuth = async (payloads: any) => {
-	const data = {
-		apiRoute: ["login"],
-		payloads: payloads,
-		responseCookies: true
-	}
-	return await serverActions({ data })
+export const serverActions = async (
+	configs: ServerActionsOptions
+): Promise<ServerActionsReturns> => {
+	return await serverFetcher({ data: configs })
 }
 
-export const serverFetcher = async (data: ServerActionsData) => {
-	return await serverActions({ data })
-}
-
-const getServerHeaders = () => {
-	const requestHeaders = getRequestHeaders()
-	const requesCookies = requestHeaders.get("cookie") ?? ""
-	const headers = new Headers()
-
-	headers.set("Content-Type", "application/json")
-	headers.set("cookie", requesCookies || "")
-
-	return headers
-}
-
-export const serverActions = createServerFn({ method: 'POST' })
-	.inputValidator((data: ServerActionsData) => data)
-	.handler(async ({ data }): Promise<ServerActionReturns> => {
+export const serverFetcher = createServerFn({ method: 'POST' })
+	.inputValidator((data: ServerActionsOptions) => data)
+	.handler(async ({ data }): Promise<ServerActionsReturns> => {
 		const {
 			end = "REMOTE",
+			isResponseCookies = false,
+			isRequestCookies = true,
+			responseType = "json",
 			apiRoute: api,
 			payloads: body,
-			responseCookies,
 			options
 		} = data
 		// console.log("serverActions", apiRoute);
 
-		const serverHeaders = getServerHeaders()
-		const controller = new AbortController()
+		const serverHeaders = new Headers()
+		serverHeaders.set("Content-Type", "application/json")
 
+		if (isRequestCookies) {
+			const requestHeaders = getRequestHeaders()
+			const headersCookies = requestHeaders.get("cookie")
+			if (headersCookies) serverHeaders.set("cookie", headersCookies)
+		}
+
+		const controller = new AbortController()
 		const timer = setTimeout(() => controller.abort(), Number(CONNECTION_MAX_TIME))
-		const route = end === "REMOTE" ? process.env.REMOTE_API_URL : process.env.LOCAL_API_URL
-		const apiRoute = route + (Array.isArray(api) ? getRouteAddress(api) : api)
+
+		const apiRoute = getApiRoute(end, api)
 		// console.log("serverActions url", url);
 
 		try {
-			const res = await fetch(apiRoute, {
+			const response = await fetch(apiRoute, {
 				method: "POST",
 				headers: serverHeaders,
 				body: JSON.stringify(body),
@@ -75,23 +79,21 @@ export const serverActions = createServerFn({ method: 'POST' })
 				...options,
 			})
 
-			if (!res.ok) throw new Error(`server actions error: ${res.status}`)
-
-			if (responseCookies) {
-				const resHeaders = res.headers
+			if (!response.ok) throw new Error(`server actions error: ${response.status}`)
+			if (isResponseCookies) {
+				const resHeaders = response.headers
 				const resCookies = typeof resHeaders.getSetCookie === 'function'
 					? resHeaders.getSetCookie()
 					: (resHeaders.get('set-cookie') ? [resHeaders.get('set-cookie') ?? ""] : [])
 				// console.log("resCookies", resCookies);
-
 				if (resCookies.length) for (const cookie of resCookies) {
 					setResponseHeader('Set-Cookie', cookie)
 				}
 			}
+			// if (responseType == "response") return response
+			// if (responseType == "blob") return await response.blob()
 
-			const datas = await res.json()
-			// console.log("serverActions datas", datas); 
-			return datas
+			return await response.json()
 
 		} catch (error: any) {
 			const errorMessage = error.name === "AbortError"
@@ -101,12 +103,16 @@ export const serverActions = createServerFn({ method: 'POST' })
 			console.error(errorMessage)
 			// if (error === 401) redirect("/login")
 
-			return { status: false, msg: errorMessage, errors: error } as ServerActionReturns
+			return { status: false, msg: errorMessage, errors: error } as ServerActionsReturns
 
 		} finally {
 			clearTimeout(timer)
 		}
 	})
+
+
+
+
 
 
 
