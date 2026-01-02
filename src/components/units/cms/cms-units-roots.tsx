@@ -3,7 +3,7 @@
 import { memo, useMemo } from "react"
 import { DatasViews, EditorsViews } from "@/components"
 // import { useParams } from "next/navigation"
-import { useUintsQuery } from "@/libs"
+import { useUints } from "../units-hooks"
 
 export interface CmsUnitsRootsProps {
 	// area: string
@@ -23,7 +23,7 @@ const CmsUnitsRoots: React.FC<CmsUnitsRootsProps> = memo((props) => {
 	// 	views, parameters: { area, ...params }
 	// }), [params])
 
-	// const componentProps = useUintsQuery(ueryOptions)
+	// const componentProps = useUints(ueryOptions)
 	// const unitsComponent = useMemo(() => componentProps?.viewsComponent?.name ?? "", [componentProps?.viewsComponent])
 	// console.log("viewsComponent", componentProps.viewsComponent);
 

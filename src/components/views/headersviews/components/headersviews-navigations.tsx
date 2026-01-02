@@ -1,9 +1,8 @@
-"use client"
-import { memo, useCallback, useEffect, useRef, useState } from "react"
-// import { usePathname, useRouter } from "next/navigation"
+import { memo, useCallback, useEffect, useState } from "react"
+import { useLocation, useNavigate } from "@tanstack/react-router"
 import HeadersNvigationsDropdowns from "./headersviews-navigations-dropdowns"
-import { cn } from "@/utils"
 import { useViews } from "@/components"
+import { cn } from "@/utils"
 
 interface NavMenuTypes {
 	id: number,
@@ -20,10 +19,10 @@ interface PropsTypes {
 
 const HeadersNvigations: React.FC<PropsTypes> = memo(({ datas, configs }) => {
 
-	// const router = useRouter()
+	const navigate = useNavigate()
+	const location = useLocation()
 
-	// const pathname = usePathname().split("/")[1]
-	// const currentRoute = "/" + pathname
+	const currentRoute = "/" + location.pathname.split("/")[1]
 
 	const { leaveEditorsViewsEdited } = useViews()
 
@@ -32,7 +31,7 @@ const HeadersNvigations: React.FC<PropsTypes> = memo(({ datas, configs }) => {
 
 	const onClickEvent = useCallback(async (route: string) => {
 		const actions = await leaveEditorsViewsEdited()
-		// if (actions == "leave") router.push(route as any)
+		if (actions == "leave") navigate({ to: route as any })
 	}, [leaveEditorsViewsEdited])
 
 	useEffect(() => setDropdownKey(""), [])
@@ -66,7 +65,7 @@ const HeadersNvigations: React.FC<PropsTypes> = memo(({ datas, configs }) => {
 						"data-[active=true]:text-white"
 					)}
 					onClick={() => onClickEvent(data.route)}
-				// data-active={currentRoute == data.route}
+					data-active={currentRoute == data.route}
 				>
 					{data.name}
 				</div>

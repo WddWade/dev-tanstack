@@ -1,7 +1,9 @@
 import { useEffect, useEffectEvent, createContext, use } from "react"
 import { setGlobalsLoaders } from "@/stores"
-import { useQuery, keepPreviousData } from "@tanstack/react-query"
+import { useQuery, keepPreviousData, useQueryClient } from "@tanstack/react-query"
 import { serverActions } from "@/servers/server-actions"
+import { QueryCache } from '@tanstack/react-query'
+
 // import { notFound } from "next/navigation"
 
 // interface BootsQueryOptions {
@@ -9,6 +11,7 @@ import { serverActions } from "@/servers/server-actions"
 // }
 
 export function useBootsQuery() {
+
 	const {
 		data: queryDatas,
 		isLoading

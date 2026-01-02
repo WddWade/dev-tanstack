@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from "react"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useBootsQuery } from "@/libs"
-import { genUnitsViewsOptions } from "./units-helps"
+import { genUnitsViewsOptions } from "./units-helpers"
 import { serverActions } from "@/servers/server-actions"
 
 export interface UintsQueryOptions {
@@ -13,7 +13,7 @@ export interface UintsQueryOptions {
 	resizeStores?: string
 }
 
-export function useUintsQuery({
+export function useUints({
 	id,
 	views,
 	parameters,

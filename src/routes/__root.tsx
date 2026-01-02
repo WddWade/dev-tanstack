@@ -6,8 +6,6 @@ import {
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
-// import Header from "../components/Header"
-import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
 
 import { QueryProviders, ThemeProvider } from "@/contexts"
 import { Toaster as GlobalsToaster, GlobalsAlerts, GlobalsOverlays } from "@/components"
@@ -15,6 +13,7 @@ import { cn } from "@/utils"
 
 import appCss from "@/styles/globals.css?url"
 import type { QueryClient } from "@tanstack/react-query"
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -61,9 +60,9 @@ function RootDocument({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryProviders>
-            {children}
-          </QueryProviders>
+          {/* <QueryProviders> */}
+          {children}
+          {/* </QueryProviders> */}
         </ThemeProvider>
 
         <GlobalsToaster
@@ -78,13 +77,13 @@ function RootDocument({
           config={{
             position: "bottom-right",
           }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
+          plugins={[{
+            name: "Tanstack Router",
+            render: <TanStackRouterDevtoolsPanel />,
+          }, {
+            name: 'Tanstack Query',
+            render: <ReactQueryDevtoolsPanel />,
+          }]}
         />
         <Scripts />
       </body>

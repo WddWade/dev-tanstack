@@ -12,7 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as pagesRouteRouteImport } from './routes/(pages)/route'
 import { Route as pagesIndexRouteImport } from './routes/(pages)/index'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
+import { Route as pagesTestIndexRouteImport } from './routes/(pages)/test/index'
+import { Route as pagesFilesIndexRouteImport } from './routes/(pages)/files/index'
+import { Route as pagesDocsIndexRouteImport } from './routes/(pages)/docs/index'
+import { Route as pagesDashboardIndexRouteImport } from './routes/(pages)/dashboard/index'
+import { Route as pagesCmsIndexRouteImport } from './routes/(pages)/cms/index'
+import { Route as pagesAnalyticsIndexRouteImport } from './routes/(pages)/analytics/index'
+import { Route as pagesAccountIndexRouteImport } from './routes/(pages)/account/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
+import { Route as pagesCmsSitesRouteRouteImport } from './routes/(pages)/cms/$sites/route'
+import { Route as pagesCmsSitesIndexRouteImport } from './routes/(pages)/cms/$sites/index'
+import { Route as pagesCmsSitesContentsRouteImport } from './routes/(pages)/cms/$sites/$contents'
 
 const pagesRouteRoute = pagesRouteRouteImport.update({
   id: '/(pages)',
@@ -28,34 +38,152 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const pagesTestIndexRoute = pagesTestIndexRouteImport.update({
+  id: '/test/',
+  path: '/test/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesFilesIndexRoute = pagesFilesIndexRouteImport.update({
+  id: '/files/',
+  path: '/files/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesDocsIndexRoute = pagesDocsIndexRouteImport.update({
+  id: '/docs/',
+  path: '/docs/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesDashboardIndexRoute = pagesDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesCmsIndexRoute = pagesCmsIndexRouteImport.update({
+  id: '/cms/',
+  path: '/cms/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesAnalyticsIndexRoute = pagesAnalyticsIndexRouteImport.update({
+  id: '/analytics/',
+  path: '/analytics/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesAccountIndexRoute = pagesAccountIndexRouteImport.update({
+  id: '/account/',
+  path: '/account/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
 const authLoginIndexRoute = authLoginIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => authLoginRouteRoute,
 } as any)
+const pagesCmsSitesRouteRoute = pagesCmsSitesRouteRouteImport.update({
+  id: '/cms/$sites',
+  path: '/cms/$sites',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesCmsSitesIndexRoute = pagesCmsSitesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => pagesCmsSitesRouteRoute,
+} as any)
+const pagesCmsSitesContentsRoute = pagesCmsSitesContentsRouteImport.update({
+  id: '/$contents',
+  path: '/$contents',
+  getParentRoute: () => pagesCmsSitesRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRouteWithChildren
   '/': typeof pagesIndexRoute
+  '/cms/$sites': typeof pagesCmsSitesRouteRouteWithChildren
   '/login/': typeof authLoginIndexRoute
+  '/account': typeof pagesAccountIndexRoute
+  '/analytics': typeof pagesAnalyticsIndexRoute
+  '/cms': typeof pagesCmsIndexRoute
+  '/dashboard': typeof pagesDashboardIndexRoute
+  '/docs': typeof pagesDocsIndexRoute
+  '/files': typeof pagesFilesIndexRoute
+  '/test': typeof pagesTestIndexRoute
+  '/cms/$sites/$contents': typeof pagesCmsSitesContentsRoute
+  '/cms/$sites/': typeof pagesCmsSitesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof pagesIndexRoute
   '/login': typeof authLoginIndexRoute
+  '/account': typeof pagesAccountIndexRoute
+  '/analytics': typeof pagesAnalyticsIndexRoute
+  '/cms': typeof pagesCmsIndexRoute
+  '/dashboard': typeof pagesDashboardIndexRoute
+  '/docs': typeof pagesDocsIndexRoute
+  '/files': typeof pagesFilesIndexRoute
+  '/test': typeof pagesTestIndexRoute
+  '/cms/$sites/$contents': typeof pagesCmsSitesContentsRoute
+  '/cms/$sites': typeof pagesCmsSitesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(pages)': typeof pagesRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRouteRouteWithChildren
   '/(pages)/': typeof pagesIndexRoute
+  '/(pages)/cms/$sites': typeof pagesCmsSitesRouteRouteWithChildren
   '/(auth)/login/': typeof authLoginIndexRoute
+  '/(pages)/account/': typeof pagesAccountIndexRoute
+  '/(pages)/analytics/': typeof pagesAnalyticsIndexRoute
+  '/(pages)/cms/': typeof pagesCmsIndexRoute
+  '/(pages)/dashboard/': typeof pagesDashboardIndexRoute
+  '/(pages)/docs/': typeof pagesDocsIndexRoute
+  '/(pages)/files/': typeof pagesFilesIndexRoute
+  '/(pages)/test/': typeof pagesTestIndexRoute
+  '/(pages)/cms/$sites/$contents': typeof pagesCmsSitesContentsRoute
+  '/(pages)/cms/$sites/': typeof pagesCmsSitesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/' | '/login/'
+  fullPaths:
+    | '/login'
+    | '/'
+    | '/cms/$sites'
+    | '/login/'
+    | '/account'
+    | '/analytics'
+    | '/cms'
+    | '/dashboard'
+    | '/docs'
+    | '/files'
+    | '/test'
+    | '/cms/$sites/$contents'
+    | '/cms/$sites/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
-  id: '__root__' | '/(pages)' | '/(auth)/login' | '/(pages)/' | '/(auth)/login/'
+  to:
+    | '/'
+    | '/login'
+    | '/account'
+    | '/analytics'
+    | '/cms'
+    | '/dashboard'
+    | '/docs'
+    | '/files'
+    | '/test'
+    | '/cms/$sites/$contents'
+    | '/cms/$sites'
+  id:
+    | '__root__'
+    | '/(pages)'
+    | '/(auth)/login'
+    | '/(pages)/'
+    | '/(pages)/cms/$sites'
+    | '/(auth)/login/'
+    | '/(pages)/account/'
+    | '/(pages)/analytics/'
+    | '/(pages)/cms/'
+    | '/(pages)/dashboard/'
+    | '/(pages)/docs/'
+    | '/(pages)/files/'
+    | '/(pages)/test/'
+    | '/(pages)/cms/$sites/$contents'
+    | '/(pages)/cms/$sites/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -86,6 +214,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(pages)/test/': {
+      id: '/(pages)/test/'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof pagesTestIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/files/': {
+      id: '/(pages)/files/'
+      path: '/files'
+      fullPath: '/files'
+      preLoaderRoute: typeof pagesFilesIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/docs/': {
+      id: '/(pages)/docs/'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof pagesDocsIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/dashboard/': {
+      id: '/(pages)/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof pagesDashboardIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/cms/': {
+      id: '/(pages)/cms/'
+      path: '/cms'
+      fullPath: '/cms'
+      preLoaderRoute: typeof pagesCmsIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/analytics/': {
+      id: '/(pages)/analytics/'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof pagesAnalyticsIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/account/': {
+      id: '/(pages)/account/'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof pagesAccountIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
     '/(auth)/login/': {
       id: '/(auth)/login/'
       path: '/'
@@ -93,15 +270,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginIndexRouteImport
       parentRoute: typeof authLoginRouteRoute
     }
+    '/(pages)/cms/$sites': {
+      id: '/(pages)/cms/$sites'
+      path: '/cms/$sites'
+      fullPath: '/cms/$sites'
+      preLoaderRoute: typeof pagesCmsSitesRouteRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/cms/$sites/': {
+      id: '/(pages)/cms/$sites/'
+      path: '/'
+      fullPath: '/cms/$sites/'
+      preLoaderRoute: typeof pagesCmsSitesIndexRouteImport
+      parentRoute: typeof pagesCmsSitesRouteRoute
+    }
+    '/(pages)/cms/$sites/$contents': {
+      id: '/(pages)/cms/$sites/$contents'
+      path: '/$contents'
+      fullPath: '/cms/$sites/$contents'
+      preLoaderRoute: typeof pagesCmsSitesContentsRouteImport
+      parentRoute: typeof pagesCmsSitesRouteRoute
+    }
   }
 }
 
+interface pagesCmsSitesRouteRouteChildren {
+  pagesCmsSitesContentsRoute: typeof pagesCmsSitesContentsRoute
+  pagesCmsSitesIndexRoute: typeof pagesCmsSitesIndexRoute
+}
+
+const pagesCmsSitesRouteRouteChildren: pagesCmsSitesRouteRouteChildren = {
+  pagesCmsSitesContentsRoute: pagesCmsSitesContentsRoute,
+  pagesCmsSitesIndexRoute: pagesCmsSitesIndexRoute,
+}
+
+const pagesCmsSitesRouteRouteWithChildren =
+  pagesCmsSitesRouteRoute._addFileChildren(pagesCmsSitesRouteRouteChildren)
+
 interface pagesRouteRouteChildren {
   pagesIndexRoute: typeof pagesIndexRoute
+  pagesCmsSitesRouteRoute: typeof pagesCmsSitesRouteRouteWithChildren
+  pagesAccountIndexRoute: typeof pagesAccountIndexRoute
+  pagesAnalyticsIndexRoute: typeof pagesAnalyticsIndexRoute
+  pagesCmsIndexRoute: typeof pagesCmsIndexRoute
+  pagesDashboardIndexRoute: typeof pagesDashboardIndexRoute
+  pagesDocsIndexRoute: typeof pagesDocsIndexRoute
+  pagesFilesIndexRoute: typeof pagesFilesIndexRoute
+  pagesTestIndexRoute: typeof pagesTestIndexRoute
 }
 
 const pagesRouteRouteChildren: pagesRouteRouteChildren = {
   pagesIndexRoute: pagesIndexRoute,
+  pagesCmsSitesRouteRoute: pagesCmsSitesRouteRouteWithChildren,
+  pagesAccountIndexRoute: pagesAccountIndexRoute,
+  pagesAnalyticsIndexRoute: pagesAnalyticsIndexRoute,
+  pagesCmsIndexRoute: pagesCmsIndexRoute,
+  pagesDashboardIndexRoute: pagesDashboardIndexRoute,
+  pagesDocsIndexRoute: pagesDocsIndexRoute,
+  pagesFilesIndexRoute: pagesFilesIndexRoute,
+  pagesTestIndexRoute: pagesTestIndexRoute,
 }
 
 const pagesRouteRouteWithChildren = pagesRouteRoute._addFileChildren(

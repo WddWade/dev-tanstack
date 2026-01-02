@@ -1,8 +1,6 @@
-"use client"
-
-// import { useRouter } from "next/navigation"
 import { useViews } from "@/components"
 import { cn } from "@/utils"
+import { useNavigate } from "@tanstack/react-router"
 import { memo } from "react"
 
 interface PropsTypes {
@@ -12,12 +10,12 @@ interface PropsTypes {
 
 const HeadersLogos: React.FC<PropsTypes> = memo((props) => {
 
-	// const router = useRouter()
+	const navigate = useNavigate()
 	const { leaveEditorsViewsEdited } = useViews()
 
 	const onClickEvent = async () => {
 		const actions = await leaveEditorsViewsEdited()
-		// if (actions == "leave") router.push("/")
+		if (actions == "leave") navigate({ to: "/" })
 	}
 
 	return (

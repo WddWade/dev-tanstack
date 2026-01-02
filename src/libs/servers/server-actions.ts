@@ -1,7 +1,7 @@
 "use server"
 
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation";
+// import { cookies } from "next/headers"
+// import { redirect } from "next/navigation";
 import { CONNECTION_MAX_TIME } from "@/beones.config"
 
 type Restype = "response" | undefined
@@ -65,7 +65,7 @@ export async function serverActions<
 			: `server actions error: Fetch "${api}" :  ${error}`
 
 		console.error(errorMessage)
-		if (error === 401) redirect("/login")
+		// if (error === 401) redirect("/login")
 
 		return { status: false, msg: errorMessage, errors: error } as ActionsResponse<T, R>
 
@@ -75,24 +75,26 @@ export async function serverActions<
 }
 
 export async function getServerCookies(name?: string) {
-	const cookieStore = await cookies()
+	// const cookieStore = await cookies()
+	// const cookieStore = [""]
 
-	if (name) {
-		const cookieValue = cookieStore.get(name)?.value
-		return cookieValue
-			? JSON.parse(cookieValue)
-			: undefined
-	} else {
-		return cookieStore
-			.getAll()
-			.map((cookie) => cookie.name + "=" + cookie.value)
-			.join("; ")
-	}
+	// if (name) {
+	// 	const cookieValue = cookieStore.get(name)?.value
+	// 	return cookieValue
+	// 		? JSON.parse(cookieValue)
+	// 		: undefined
+	// } else {
+	// 	return cookieStore
+	// 		.getAll()
+	// 		// .map((cookie) => cookie.name + "=" + cookie.value)
+	// 		.join("; ")
+	// }
 
 }
 
 export async function getServerHeaders(headers?: Record<string, string>) {
-	const cookies = await getServerCookies()
+	// const cookies = await getServerCookies()
+	const cookies = undefined
 	const serverHeaders = new Headers()
 
 	serverHeaders.set("cookie", cookies || "")

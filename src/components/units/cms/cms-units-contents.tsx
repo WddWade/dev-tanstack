@@ -3,7 +3,7 @@
 import { memo, useMemo } from "react"
 import { EditorsViews, EditorsViewsNotfound } from "@/components"
 // import { useParams } from "next/navigation"
-import { useUintsQuery } from "@/libs"
+import { useUints } from "../units-hooks"
 
 export interface CmsUnitsContentsProps {
 	// parameters: Record<string, string>
@@ -22,7 +22,7 @@ const CmsUnitsContents: React.FC<CmsUnitsContentsProps> = memo((props) => {
 	// 	views, id: params?.contents, parameters: { area, ...params }
 	// }), [params])
 
-	// const componentProps = useUintsQuery(ueryOptions)
+	// const componentProps = useUints(ueryOptions)
 
 	return (
 		<>546
