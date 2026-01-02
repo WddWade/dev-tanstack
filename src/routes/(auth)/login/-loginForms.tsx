@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { serverActions } from "@/servers/server-actions"
 import { globalToaster } from "@/components"
 import { cn } from "@/utils"
+import { loginActions } from "@/servers/auth-actions"
 
 
 interface FormValues {
@@ -35,18 +36,14 @@ const LoginForms: React.FC<PropsType> = () => {
 
 	const onClickEvents = () => {
 		startTransition(async () => {
-			const { status, data: datasets } = await serverActions({
-				apiRoute: ["login"],
-				payloads: submitDatas,
-				isResponseCookies: true
-			})
+			const { status, data: datasets } = await loginActions({ data: submitDatas })
 			// console.log("status", datasets);
-			globalToaster("login")
+			if (!status) return
 
-			if (status) {
-				navigate({ to: '/', replace: true })
-				setSubmitDatas({})
-			}
+			globalToaster("login")
+			navigate({ to: '/', replace: true, viewTransition: true })
+			setSubmitDatas({})
+
 		})
 	}
 

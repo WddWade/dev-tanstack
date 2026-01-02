@@ -7,6 +7,8 @@ import { SlotsPropsTypes } from "@/types"
 import { Buttons, useViews } from "@/components"
 import { IconBrandGravatar } from '@tabler/icons-react'
 import { cn } from "@/utils"
+import { logoutActions } from "@/servers/auth-actions"
+import { useNavigate } from "@tanstack/react-router"
 
 interface PropsTypes {
 	datas?: {}
@@ -21,21 +23,24 @@ const HeadersLogouts: React.FC<PropsTypes> = memo((props) => {
 	const {
 		globalsAlerts,
 		leaveEditorsViewsEdited,
+		isEditorsViewsEdited
 	} = useViews()
 
-	const { fetcher } = useAsyncFetcher()
+	const navigate = useNavigate()
+
+	// const { fetcher } = useAsyncFetcher()
 
 	const loginHandler = async () => {
-		const actions = await leaveEditorsViewsEdited()
-		if (actions !== "leave") return
+		// if (isEditorsViewsEdited) {
+		// 	const actions = await leaveEditorsViewsEdited()
+		// 	if (actions !== "leave") return
+		// }
 
 		const isLogout = await globalsAlerts.open("headersViews.logout")
 		if (!isLogout) return
 
-		const url = `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/auth/logout`
-		const { status } = await fetcher({ url, options: { method: "POST" } })
-
-		// if (status) redirect("/login", RedirectType.replace)
+		const { status } = await logoutActions()
+		if (status) navigate({ to: "/login", replace: true, viewTransition: true })
 
 	}
 
@@ -47,8 +52,8 @@ const HeadersLogouts: React.FC<PropsTypes> = memo((props) => {
 			variant={"link"}
 			size={"sm"}
 			className={cn(
-				"[&_*]:text-white",
-				"!p-0"
+				"**:text-white",
+				"p-0"
 			)}
 		>
 			<IconBrandGravatar

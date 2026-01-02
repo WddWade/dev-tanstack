@@ -30,7 +30,7 @@ const HeadersViews: React.FC<HeadersViewsProps> = () => {
 	const { queryDatas, isLoading } = useBootsQuery()
 	const { status, datasets, configs } = queryDatas || {}
 
-	console.log("HeadersViews queryDatas", queryDatas);
+	// console.log("HeadersViews queryDatas", queryDatas);
 	// if (!isLoading && (!status || !datasets?.headersViews)) notFound()
 
 	const headersViewsDatas = datasets?.headersViews

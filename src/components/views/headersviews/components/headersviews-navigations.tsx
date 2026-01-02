@@ -31,7 +31,7 @@ const HeadersNvigations: React.FC<PropsTypes> = memo(({ datas, configs }) => {
 
 	const onClickEvent = useCallback(async (route: string) => {
 		const actions = await leaveEditorsViewsEdited()
-		if (actions == "leave") navigate({ to: route as any })
+		if (actions == "leave") navigate({ to: route, viewTransition: true })
 	}, [leaveEditorsViewsEdited])
 
 	useEffect(() => setDropdownKey(""), [])

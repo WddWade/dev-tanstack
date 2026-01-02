@@ -1,8 +1,7 @@
 import { useEffect, useEffectEvent, createContext, use } from "react"
 import { setGlobalsLoaders } from "@/stores"
-import { useQuery, keepPreviousData, useQueryClient } from "@tanstack/react-query"
-import { serverActions } from "@/servers/server-actions"
-import { QueryCache } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query"
+import { bootsActions } from "@/servers"
 
 // import { notFound } from "next/navigation"
 
@@ -17,15 +16,10 @@ export function useBootsQuery() {
 		isLoading
 	} = useQuery({
 		queryKey: ["boots"],
-		queryFn: async () => await serverActions({
-			apiRoute: ["boots"],
-			payloads: { _actions: "read" }
-		}),
-		placeholderData: keepPreviousData,
-		staleTime: Infinity,
+		queryFn: bootsActions
 	})
 
-	console.log("queryDatas", queryDatas);
+	// console.log("queryDatas", queryDatas);
 
 	const isError = !isLoading && (!queryDatas || !queryDatas?.status)
 

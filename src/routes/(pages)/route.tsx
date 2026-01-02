@@ -1,4 +1,5 @@
 // import { HeadersViews } from '@/components'
+import { GlobalsLoaders } from '@/components'
 import { HeadersViews } from '@/components/views'
 import { BootsProviders } from '@/libs/boots-query'
 import { cn } from '@/utils'
@@ -29,6 +30,7 @@ function RouteLayout() {
             <main className={cn("w-full", "h-main", "flex", "items-start", "justify-center")}>
                 <Outlet />
             </main>
+            <GlobalsLoaders />
         </BootsProviders >
     )
 }

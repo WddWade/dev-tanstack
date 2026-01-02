@@ -42,6 +42,15 @@ function RootDocument({
 }: {
   children: React.ReactNode
 }) {
+
+  const devtoolsPlugin = [{
+    name: "Tanstack Router",
+    render: <TanStackRouterDevtoolsPanel />,
+  }, {
+    name: 'Tanstack Query',
+    render: <ReactQueryDevtoolsPanel />,
+  }]
+
   return (
     <html
       lang="en"
@@ -53,37 +62,20 @@ function RootDocument({
         <HeadContent />
       </head>
       <body>
-        {/* <Header /> */}
         <ThemeProvider
           attribute="data-mode"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {/* <QueryProviders> */}
           {children}
-          {/* </QueryProviders> */}
         </ThemeProvider>
-
-        <GlobalsToaster
-          theme="light"
-          position="top-right"
-          richColors
-        />
-
-        {/* <GlobalsAlerts /> */}
-        {/* <GlobalsOverlays /> */}
+        <GlobalsToaster theme="light" position="top-right" richColors />
+        <GlobalsAlerts />
+        <GlobalsOverlays />
         <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[{
-            name: "Tanstack Router",
-            render: <TanStackRouterDevtoolsPanel />,
-          }, {
-            name: 'Tanstack Query',
-            render: <ReactQueryDevtoolsPanel />,
-          }]}
+          config={{ position: "bottom-right" }}
+          plugins={devtoolsPlugin}
         />
         <Scripts />
       </body>

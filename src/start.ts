@@ -3,36 +3,32 @@ import { redirect } from '@tanstack/react-router'
 import { createMiddleware, createStart } from '@tanstack/react-start'
 import { getCookies } from '@tanstack/react-start/server'
 
-const checkServerFn = (headers: Headers) => {
+function isDocumentNavigation(headers: Headers) {
     const accept = headers.get('accept') ?? ''
     const secFetchDest = headers.get('sec-fetch-dest') ?? ''
-    const isHtmlNav = accept.includes('text/html') || secFetchDest === 'document'
-
-    return !isHtmlNav || headers.has('x-tsr-redirect')
+    return accept.includes('text/html') || secFetchDest === 'document'
 }
 
-const requestMiddleware = createMiddleware().server(
-    async ({ next, context, request }) => {
-        const { pathname } = new URL(request.url)
-        const toPath = (route: string) =>
-            pathname.split("/")[1] == route.trim().replace("/", "")
+const requestMiddleware = createMiddleware().server(async ({ next, request }) => {
+    const { pathname } = new URL(request.url)
+    const cookies = getCookies()
+    const authed = Boolean(cookies.wdd_laravel_1103_session)
 
-        const isServerFn = checkServerFn(request.headers)
-        const cookies = getCookies()
-        // console.log('-----------requestMiddleware server', request)
-        // console.log('-----------requestMiddleware server', cookies)
+    // ✅ 只在「文件導覽」時才 redirect
+    if (isDocumentNavigation(request.headers)) {
+        const isLogin = pathname === '/login' || pathname.startsWith('/login/')
 
-        if (!cookies.wdd_laravel_1103_session) {
-            if (toPath("/login") || isServerFn) return next()
-            else throw redirect({ to: '/login', replace: true })
+        if (!authed && !isLogin) {
+            throw redirect({ to: '/login', replace: true })
         }
 
-        if (cookies.wdd_laravel_1103_session) {
-            if (toPath("/login")) throw redirect({ to: '/', replace: true })
+        if (authed && isLogin) {
+            throw redirect({ to: '/', replace: true })
         }
+    }
 
-        return next()
-    })
+    return next()
+})
 
 const functionMiddleware = createMiddleware({ type: "function" })
     .client(async ({ next }) => {
@@ -52,7 +48,7 @@ const functionMiddleware = createMiddleware({ type: "function" })
 
 export const startInstance = createStart(() => {
     return {
-        functionMiddleware: [functionMiddleware],
+        // functionMiddleware: [functionMiddleware],
         requestMiddleware: [requestMiddleware],
     }
 })

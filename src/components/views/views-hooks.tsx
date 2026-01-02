@@ -35,7 +35,8 @@ export const useViews = () => {
 
 	return {
 		globalsAlerts,
-		leaveEditorsViewsEdited
+		leaveEditorsViewsEdited,
+		isEditorsViewsEdited
 	}
 }
 

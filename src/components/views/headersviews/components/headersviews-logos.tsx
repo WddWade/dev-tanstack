@@ -15,7 +15,7 @@ const HeadersLogos: React.FC<PropsTypes> = memo((props) => {
 
 	const onClickEvent = async () => {
 		const actions = await leaveEditorsViewsEdited()
-		if (actions == "leave") navigate({ to: "/" })
+		if (actions == "leave") navigate({ to: "/", viewTransition: true })
 	}
 
 	return (
