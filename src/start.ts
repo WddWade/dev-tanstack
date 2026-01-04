@@ -1,9 +1,10 @@
-// src/start.ts
-import { redirect } from '@tanstack/react-router'
 import { createMiddleware, createStart } from '@tanstack/react-start'
 import { getCookies } from '@tanstack/react-start/server'
+import { redirect } from '@tanstack/react-router'
+import { deleteAuthSessions } from '@/servers/sessions'
+import { C_SESSION, R_SESSION } from "@/configs/beones-config"
 
-function isDocumentNavigation(headers: Headers) {
+const isDocumentNavigation = (headers: Headers) => {
     const accept = headers.get('accept') ?? ''
     const secFetchDest = headers.get('sec-fetch-dest') ?? ''
     return accept.includes('text/html') || secFetchDest === 'document'
@@ -12,17 +13,21 @@ function isDocumentNavigation(headers: Headers) {
 const requestMiddleware = createMiddleware().server(async ({ next, request }) => {
     const { pathname } = new URL(request.url)
     const cookies = getCookies()
-    const authed = Boolean(cookies.wdd_laravel_1103_session)
+    const remoteAuth = !!cookies[R_SESSION]
+    const clientAuth = !!cookies[C_SESSION]
 
     // ✅ 只在「文件導覽」時才 redirect
     if (isDocumentNavigation(request.headers)) {
         const isLogin = pathname === '/login' || pathname.startsWith('/login/')
 
-        if (!authed && !isLogin) {
+        if (!remoteAuth) {
+            await deleteAuthSessions()
+        }
+        if (!remoteAuth && !isLogin) {
             throw redirect({ to: '/login', replace: true })
         }
 
-        if (authed && isLogin) {
+        if (remoteAuth && isLogin) {
             throw redirect({ to: '/', replace: true })
         }
     }

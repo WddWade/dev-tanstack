@@ -10,11 +10,11 @@ import {
 
 import { cn } from "@/utils"
 
-export const Route = createFileRoute('/(pages)/')({ component: IndexPage })
+export const Route = createFileRoute('/(pages)/')({
+  component: IndexPage
+})
 
 function IndexPage() {
-
-
   return (
     <h2 className={cn(
       "text-[15vw]",

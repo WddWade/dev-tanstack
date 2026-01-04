@@ -2,7 +2,7 @@
 
 // import { cookies } from "next/headers"
 // import { redirect } from "next/navigation";
-import { CONNECTION_MAX_TIME } from "@/beones.config"
+import { CONNECTION_MAX_TIME } from "@/configs/beones-config"
 
 type Restype = "response" | undefined
 

@@ -7,7 +7,7 @@ import { SlotsPropsTypes } from "@/types"
 import { Buttons, useViews } from "@/components"
 import { IconBrandGravatar } from '@tabler/icons-react'
 import { cn } from "@/utils"
-import { logoutActions } from "@/servers/auth-actions"
+import { logoutActions } from "@/libs/auths-actions"
 import { useNavigate } from "@tanstack/react-router"
 
 interface PropsTypes {

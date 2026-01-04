@@ -1,21 +1,21 @@
 "use server";
 
 // import { cookies } from "next/headers"
-import { C_TOKEN, R_TOKEN, C_TOKEN_OPTIONS } from "@/beones.config"
+import { C_SESSION, R_SESSION, C_SESSION_OPTIONS } from "@/configs/beones-config"
 import { serverActions } from "./server-actions"
 
-export async function setAuthTokenCookies() {
+export async function setAuthSessions() {
 	// const cookiesStore = await cookies();
-	// cookiesStore.set(C_TOKEN, "true", { ...C_TOKEN_OPTIONS });
+	// cookiesStore.set(C_SESSION, "true", { ...C_SESSION_OPTIONS });
 
 	// https再開secure: true
-	// cookiesStore.set(C_TOKEN, "true", { ...C_TOKEN_OPTIONS, secure: true });
+	// cookiesStore.set(C_SESSION, "true", { ...C_SESSION_OPTIONS, secure: true });
 }
 
-export async function deleteAuthTokenCookies() {
+export async function deleteAuthSessions() {
 	// const cookiesStore = await cookies();
-	// cookiesStore.delete(R_TOKEN);
-	// cookiesStore.delete(C_TOKEN);
+	// cookiesStore.delete(R_SESSION);
+	// cookiesStore.delete(C_SESSION);
 }
 
 export async function verifyAuthorizationToken() {
@@ -24,8 +24,8 @@ export async function verifyAuthorizationToken() {
 		options: { method: "POST" },
 	});
 
-	if (status) await setAuthTokenCookies();
-	else await deleteAuthTokenCookies();
+	if (status) await setAuthSessions();
+	else await deleteAuthSessions();
 
 	console.log("middleware : verifyAuthTokenCookies " + status);
 	return status;

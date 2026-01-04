@@ -1,3 +1,3 @@
-export * from "./server-actions"
-export * from "./boots-actions"
-export * from "./auth-actions"
+export * from "./actions"
+export * from "../libs/boots-actions"
+export * from "../libs/auths-actions"

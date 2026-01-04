@@ -4,7 +4,7 @@ import { useCallback, useMemo } from "react"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useBootsQuery } from "@/libs"
 import { genUnitsViewsOptions } from "./units-helpers"
-import { serverActions } from "@/servers/server-actions"
+import { serverActions } from "@/servers/actions"
 
 export interface UintsQueryOptions {
 	id?: string | number

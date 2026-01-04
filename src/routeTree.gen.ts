@@ -23,6 +23,8 @@ import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as pagesCmsSitesRouteRouteImport } from './routes/(pages)/cms/$sites/route'
 import { Route as pagesCmsSitesIndexRouteImport } from './routes/(pages)/cms/$sites/index'
 import { Route as pagesCmsSitesContentsRouteImport } from './routes/(pages)/cms/$sites/$contents'
+import { Route as pagesCmsSitesUnitsIndexRouteImport } from './routes/(pages)/cms/$sites/$units/index'
+import { Route as pagesCmsSitesUnitsContentsIndexRouteImport } from './routes/(pages)/cms/$sites/$units/$contents/index'
 
 const pagesRouteRoute = pagesRouteRouteImport.update({
   id: '/(pages)',
@@ -93,6 +95,17 @@ const pagesCmsSitesContentsRoute = pagesCmsSitesContentsRouteImport.update({
   path: '/$contents',
   getParentRoute: () => pagesCmsSitesRouteRoute,
 } as any)
+const pagesCmsSitesUnitsIndexRoute = pagesCmsSitesUnitsIndexRouteImport.update({
+  id: '/$units/',
+  path: '/$units/',
+  getParentRoute: () => pagesCmsSitesRouteRoute,
+} as any)
+const pagesCmsSitesUnitsContentsIndexRoute =
+  pagesCmsSitesUnitsContentsIndexRouteImport.update({
+    id: '/$units/$contents/',
+    path: '/$units/$contents/',
+    getParentRoute: () => pagesCmsSitesRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRouteWithChildren
@@ -108,6 +121,8 @@ export interface FileRoutesByFullPath {
   '/test': typeof pagesTestIndexRoute
   '/cms/$sites/$contents': typeof pagesCmsSitesContentsRoute
   '/cms/$sites/': typeof pagesCmsSitesIndexRoute
+  '/cms/$sites/$units': typeof pagesCmsSitesUnitsIndexRoute
+  '/cms/$sites/$units/$contents': typeof pagesCmsSitesUnitsContentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof pagesIndexRoute
@@ -121,6 +136,8 @@ export interface FileRoutesByTo {
   '/test': typeof pagesTestIndexRoute
   '/cms/$sites/$contents': typeof pagesCmsSitesContentsRoute
   '/cms/$sites': typeof pagesCmsSitesIndexRoute
+  '/cms/$sites/$units': typeof pagesCmsSitesUnitsIndexRoute
+  '/cms/$sites/$units/$contents': typeof pagesCmsSitesUnitsContentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -138,6 +155,8 @@ export interface FileRoutesById {
   '/(pages)/test/': typeof pagesTestIndexRoute
   '/(pages)/cms/$sites/$contents': typeof pagesCmsSitesContentsRoute
   '/(pages)/cms/$sites/': typeof pagesCmsSitesIndexRoute
+  '/(pages)/cms/$sites/$units/': typeof pagesCmsSitesUnitsIndexRoute
+  '/(pages)/cms/$sites/$units/$contents/': typeof pagesCmsSitesUnitsContentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -155,6 +174,8 @@ export interface FileRouteTypes {
     | '/test'
     | '/cms/$sites/$contents'
     | '/cms/$sites/'
+    | '/cms/$sites/$units'
+    | '/cms/$sites/$units/$contents'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -168,6 +189,8 @@ export interface FileRouteTypes {
     | '/test'
     | '/cms/$sites/$contents'
     | '/cms/$sites'
+    | '/cms/$sites/$units'
+    | '/cms/$sites/$units/$contents'
   id:
     | '__root__'
     | '/(pages)'
@@ -184,6 +207,8 @@ export interface FileRouteTypes {
     | '/(pages)/test/'
     | '/(pages)/cms/$sites/$contents'
     | '/(pages)/cms/$sites/'
+    | '/(pages)/cms/$sites/$units/'
+    | '/(pages)/cms/$sites/$units/$contents/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -291,17 +316,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pagesCmsSitesContentsRouteImport
       parentRoute: typeof pagesCmsSitesRouteRoute
     }
+    '/(pages)/cms/$sites/$units/': {
+      id: '/(pages)/cms/$sites/$units/'
+      path: '/$units'
+      fullPath: '/cms/$sites/$units'
+      preLoaderRoute: typeof pagesCmsSitesUnitsIndexRouteImport
+      parentRoute: typeof pagesCmsSitesRouteRoute
+    }
+    '/(pages)/cms/$sites/$units/$contents/': {
+      id: '/(pages)/cms/$sites/$units/$contents/'
+      path: '/$units/$contents'
+      fullPath: '/cms/$sites/$units/$contents'
+      preLoaderRoute: typeof pagesCmsSitesUnitsContentsIndexRouteImport
+      parentRoute: typeof pagesCmsSitesRouteRoute
+    }
   }
 }
 
 interface pagesCmsSitesRouteRouteChildren {
   pagesCmsSitesContentsRoute: typeof pagesCmsSitesContentsRoute
   pagesCmsSitesIndexRoute: typeof pagesCmsSitesIndexRoute
+  pagesCmsSitesUnitsIndexRoute: typeof pagesCmsSitesUnitsIndexRoute
+  pagesCmsSitesUnitsContentsIndexRoute: typeof pagesCmsSitesUnitsContentsIndexRoute
 }
 
 const pagesCmsSitesRouteRouteChildren: pagesCmsSitesRouteRouteChildren = {
   pagesCmsSitesContentsRoute: pagesCmsSitesContentsRoute,
   pagesCmsSitesIndexRoute: pagesCmsSitesIndexRoute,
+  pagesCmsSitesUnitsIndexRoute: pagesCmsSitesUnitsIndexRoute,
+  pagesCmsSitesUnitsContentsIndexRoute: pagesCmsSitesUnitsContentsIndexRoute,
 }
 
 const pagesCmsSitesRouteRouteWithChildren =

@@ -1,9 +1,8 @@
 import { useState, useTransition } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { serverActions } from "@/servers/server-actions"
 import { globalToaster } from "@/components"
+import { loginActions } from "@/libs/auths-actions"
 import { cn } from "@/utils"
-import { loginActions } from "@/servers/auth-actions"
 
 
 interface FormValues {
@@ -36,8 +35,7 @@ const LoginForms: React.FC<PropsType> = () => {
 
 	const onClickEvents = () => {
 		startTransition(async () => {
-			const { status, data: datasets } = await loginActions({ data: submitDatas })
-			// console.log("status", datasets);
+			const { status } = await loginActions({ data: submitDatas })
 			if (!status) return
 
 			globalToaster("login")

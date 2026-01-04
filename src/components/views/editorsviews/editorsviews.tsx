@@ -23,8 +23,8 @@ import {
 	type QueryObserverResult,
 	type RefetchOptions
 } from "@tanstack/react-query"
-import { FetcherDatas } from "@/servers/server-fetcher"
-import { serverActions } from "@/servers/server-actions"
+import { FetcherDatas } from "@/servers/_server-fetcher"
+import { serverActions } from "@/servers"
 
 export type SubeditorPayloadsDatas = EditorsViewsPayloads[] | []
 

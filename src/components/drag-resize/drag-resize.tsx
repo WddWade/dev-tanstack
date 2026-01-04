@@ -4,7 +4,7 @@ import { memo, useCallback, useMemo, useState } from "react"
 import { useDragResize, DragResizeProps, ResizeTypes, useCookies } from "@/hooks"
 import { DragResizeContext } from "./drag-resize-context"
 import { cn } from "@/utils"
-import { RESIZE_COOKIES_NAME } from "@/beones.config"
+import { RESIZE_COOKIES_NAME } from "@/configs/beones-config"
 import { AsPropsTypes } from "@/types"
 
 type PropsTypes<

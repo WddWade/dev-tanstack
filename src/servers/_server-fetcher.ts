@@ -23,7 +23,7 @@ export interface FetcherDatas {
 	errors?: Error
 }
 
-// export async function serverFetcher({
+// export async function se rverFetcher({
 // 	routes = [],
 // 	payloads
 // }: FetcherOptions
