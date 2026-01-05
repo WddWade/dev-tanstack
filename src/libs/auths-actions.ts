@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start"
 import { deleteAuthSessions, setAuthSessions } from "@/servers/sessions"
 import { fetcher } from "@/servers/fetcher"
+import { getCookies, getRequestHeaders, getResponse } from "@tanstack/react-start/server"
 
 export const logoutActions = createServerFn()
 	.handler(async () => {

@@ -55,6 +55,6 @@ const functionMiddleware = createMiddleware({ type: "function" })
 export const startInstance = createStart(() => {
     return {
         // functionMiddleware: [functionMiddleware],
-        requestMiddleware: [requestMiddleware, authMiddleware],
+        requestMiddleware: [requestMiddleware],
     }
 })
