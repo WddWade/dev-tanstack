@@ -1,15 +1,15 @@
 "use server";
 
 // import { cookies } from "next/headers"
-import { C_SESSION, R_SESSION, C_SESSION_OPTIONS } from "@/configs/beones-config"
+import { C_SESSION, R_SESSION, C_SESSION_COOKIE } from "@/configs/beones-config"
 import { serverActions } from "./server-actions"
 
 export async function setAuthSessions() {
 	// const cookiesStore = await cookies();
-	// cookiesStore.set(C_SESSION, "true", { ...C_SESSION_OPTIONS });
+	// cookiesStore.set(C_SESSION, "true", { ...C_SESSION_COOKIE });
 
 	// https再開secure: true
-	// cookiesStore.set(C_SESSION, "true", { ...C_SESSION_OPTIONS, secure: true });
+	// cookiesStore.set(C_SESSION, "true", { ...C_SESSION_COOKIE, secure: true });
 }
 
 export async function deleteAuthSessions() {

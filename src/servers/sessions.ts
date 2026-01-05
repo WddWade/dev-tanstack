@@ -1,5 +1,5 @@
 import { deleteCookie, useSession } from "@tanstack/react-start/server"
-import { C_SESSION, C_SESSION_PASSWORD, C_SESSION_OPTIONS, R_SESSION } from "@/configs/beones-config"
+import { C_SESSION, C_SESSION_PASSWORD, C_SESSION_COOKIE, R_SESSION } from "@/configs/beones-config"
 import { fetcher } from "./fetcher"
 
 interface AuthSessionData {
@@ -12,7 +12,7 @@ interface AuthSessionData {
 export const AUTH_SESSION = {
     name: C_SESSION,
     password: C_SESSION_PASSWORD,
-    cookie: C_SESSION_OPTIONS
+    cookie: C_SESSION_COOKIE
 }
 
 export function useAuthSessions() {

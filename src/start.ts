@@ -3,6 +3,7 @@ import { getCookies } from '@tanstack/react-start/server'
 import { redirect } from '@tanstack/react-router'
 import { deleteAuthSessions } from '@/servers/sessions'
 import { C_SESSION, R_SESSION } from "@/configs/beones-config"
+import { authMiddleware } from './middlwares/auth-middlware'
 
 const isDocumentNavigation = (headers: Headers) => {
     const accept = headers.get('accept') ?? ''
@@ -54,6 +55,6 @@ const functionMiddleware = createMiddleware({ type: "function" })
 export const startInstance = createStart(() => {
     return {
         // functionMiddleware: [functionMiddleware],
-        requestMiddleware: [requestMiddleware],
+        requestMiddleware: [requestMiddleware, authMiddleware],
     }
 })

@@ -4,7 +4,10 @@ import type { FetcherOptions, FetcherReturns } from "./fetcher"
 
 export const serverFetcher = createServerFn()
 	.inputValidator((data: FetcherOptions) => data)
-	.handler(async ({ data }) => await fetcher(data))
+	.handler(async ({ data, context }) => {
+		console.log("context", context);
+		return await fetcher(data)
+	})
 
 // export const serverActions2 = createServerFn()
 // 	.inputValidator((data: FetcherOptions) => data)
